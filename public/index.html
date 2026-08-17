@@ -292,44 +292,39 @@
           <div class="in-charge-banner" style="background: linear-gradient(135deg, #f3e8ff 0%, #e9d5ff 100%); border-color: #c084fc; color: #6b21a8;">
             <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
               <div>
-                <h3 style="margin:0 0 6px 0;">⚡ Notion API 4大資料庫雙向同步中心</h3>
-                <p style="margin:0;">本系統支援對接 Notion 4 大獨立資料庫（行事曆、段考出題、授課節數、書卷雜誌），支援離線快取無縫降級。</p>
+                <h3 style="margin:0 0 6px 0;">⚡ Notion 統一主頁面【高中部教學工作】集中同步中心</h3>
+                <p style="margin:0;">只需 2 個變數（API Key + Page ID），所有後續開發之小系統皆統一掛載於此頁面進行集中管理！</p>
               </div>
-              <div id="notionConnectionBadge" style="background: #e2e8f0; color: #475569; padding: 6px 14px; border-radius: 20px; font-weight: 700; font-size: 0.88rem; display: flex; align-items: center; gap: 6px;">
-                <span class="status-dot" style="width: 10px; height: 10px; border-radius: 50%; background: #94a3b8; display: inline-block;"></span>
-                <span id="notionStatusText">檢查連線狀態中...</span>
+              <div id="notionConnectionBadge" style="background: #dcfce7; color: #15803d; padding: 6px 14px; border-radius: 20px; font-weight: 700; font-size: 0.88rem; display: flex; align-items: center; gap: 6px;">
+                <span class="status-dot" style="width: 10px; height: 10px; border-radius: 50%; background: #22c55e; display: inline-block;"></span>
+                <span id="notionStatusText">🟢 Notion 主頁面已連線</span>
               </div>
             </div>
           </div>
 
-          <!-- Notion Database Status Grid -->
+          <!-- Notion Main Page Info Grid -->
           <div class="kpi-grid" style="margin-bottom: 20px;">
-            <div class="kpi-card" style="border-left: 4px solid #3b82f6;">
-              <div class="kpi-title">📅 115(1) 行事曆資料庫</div>
-              <div class="kpi-value" style="font-size: 1.1rem;" id="dbStatusCalendar">離線快取正常</div>
-              <div class="kpi-desc">NOTION_DB_CALENDAR_ID</div>
+            <div class="kpi-card" style="border-left: 4px solid #8b5cf6;">
+              <div class="kpi-title">🎴 Notion 主管理頁面</div>
+              <div class="kpi-value" style="font-size: 1.1rem;" id="dbStatusPage">高中部教學工作</div>
+              <div class="kpi-desc">Page ID: 3bf6485c74ff80268fd7e6f222de5d5a</div>
             </div>
             <div class="kpi-card" style="border-left: 4px solid #10b981;">
-              <div class="kpi-title">📝 段考出題分配資料庫</div>
-              <div class="kpi-value" style="font-size: 1.1rem;" id="dbStatusExam">離線快取正常</div>
-              <div class="kpi-desc">NOTION_DB_EXAM_ID</div>
+              <div class="kpi-title">🔑 Notion API 整合狀態</div>
+              <div class="kpi-value" style="font-size: 1.1rem; color: #10b981;" id="dbStatusKey">✅ 已授權連線</div>
+              <div class="kpi-desc">ntn_269838...</div>
             </div>
-            <div class="kpi-card" style="border-left: 4px solid #f59e0b;">
-              <div class="kpi-title">🏫 授課名冊與節數資料庫</div>
-              <div class="kpi-value" style="font-size: 1.1rem;" id="dbStatusCourse">離線快取正常</div>
-              <div class="kpi-desc">NOTION_DB_COURSE_ID</div>
-            </div>
-            <div class="kpi-card" style="border-left: 4px solid #8b5cf6;">
-              <div class="kpi-title">📖 書卷雜誌訂購資料庫</div>
-              <div class="kpi-value" style="font-size: 1.1rem;" id="dbStatusMagazine">離線快取正常</div>
-              <div class="kpi-desc">NOTION_DB_MAGAZINE_ID</div>
+            <div class="kpi-card" style="border-left: 4px solid #3b82f6;">
+              <div class="kpi-title">🌐 集中架構模式</div>
+              <div class="kpi-value" style="font-size: 1.1rem;">單一主頁面集中管轄</div>
+              <div class="kpi-desc">未來擴充小系統免繁瑣設定</div>
             </div>
           </div>
 
           <div style="display: flex; gap: 12px; margin-bottom: 20px; flex-wrap: wrap;">
-            <button class="btn-top btn-primary-top" id="btnSyncNotionApi">⚡ 測試與同步 Notion 資料庫</button>
-            <button class="btn-top" id="btnCopyNotionMarkdown">📋 一鍵複製 Notion 格式 Markdown</button>
-            <a class="btn-top" href="notion_export_115_english.md" target="_blank" style="text-decoration:none;">📄 開啟 notion_export_115_english.md</a>
+            <button class="btn-top btn-primary-top" id="btnSyncNotionApi">⚡ 測試與同步 Notion 主頁面</button>
+            <button class="btn-top" id="btnCopyNotionMarkdown">📋 一鍵複製完整 Markdown 貼入 Notion</button>
+            <a class="btn-top" href="https://app.notion.com/p/3bf6485c74ff80268fd7e6f222de5d5a" target="_blank" style="text-decoration:none;">🔗 開啟 Notion 高中部教學工作 頁面</a>
           </div>
 
           <!-- Configuration Guide Collapsible -->
