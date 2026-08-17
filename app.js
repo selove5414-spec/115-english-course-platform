@@ -9,11 +9,11 @@ document.addEventListener('DOMContentLoaded', () => {
   // --------------------------------------------------------------------------
   const state = {
     currentUser: null,
-    teachers: loadStorage('115_english_teachers', INITIAL_TEACHERS),
-    tasks: loadStorage('115_english_tasks', INITIAL_TASKS),
-    roster: loadStorage('115_english_roster', COURSE_ASSIGNMENTS),
-    examSetters: loadStorage('115_english_exam_setters', INITIAL_EXAM_SETTERS),
-    examSpecs: loadStorage('115_english_exam_specs', INITIAL_EXAM_SPECS),
+    teachers: loadStorage('115_english_teachers', window.INITIAL_TEACHERS || []),
+    tasks: loadStorage('115_english_tasks', window.INITIAL_TASKS || []),
+    roster: loadStorage('115_english_roster', window.COURSE_ASSIGNMENTS || { grades: [] }),
+    examSetters: loadStorage('115_english_exam_setters', window.INITIAL_EXAM_SETTERS || []),
+    examSpecs: loadStorage('115_english_exam_specs', window.INITIAL_EXAM_SPECS || []),
     activeView: 'timeline',
     searchQuery: '',
     gradeFilter: 'all',
@@ -21,7 +21,9 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   // Pre-login as Department Head (何妃卿 老師)
-  state.currentUser = state.teachers.find(t => t.id === 'ho_fei_ching') || state.teachers[0];
+  if (state.teachers && state.teachers.length > 0) {
+    state.currentUser = state.teachers.find(t => t.id === 'ho_fei_ching') || state.teachers[0];
+  }
 
   // --------------------------------------------------------------------------
   // LocalStorage Helpers

@@ -322,3 +322,18 @@ const INITIAL_TASKS = [
     note: '已完成 LiveABC (普一)、空中英語教室 (普二)、常春藤 (普三) 點收配送。'
   }
 ];
+
+// Explicitly expose data to global window object for universal browser compatibility
+if (typeof window !== 'undefined') {
+  window.INITIAL_TEACHERS = INITIAL_TEACHERS;
+  window.COURSE_ASSIGNMENTS = COURSE_ASSIGNMENTS;
+  window.TIMELINE_DATA = TIMELINE_DATA;
+  window.INITIAL_EXAM_SETTERS = INITIAL_EXAM_SETTERS;
+  window.INITIAL_EXAM_SPECS = INITIAL_EXAM_SPECS;
+  window.MAGAZINES_DATA = MAGAZINES_DATA;
+  window.TEACHING_MEMO_DATA = TEACHING_MEMO_DATA;
+  window.GRADING_RUBRICS_DATA = GRADING_RUBRICS_DATA;
+  window.RUBRIC_EXCEL_TEMPLATE_DATA = RUBRIC_EXCEL_TEMPLATE_DATA;
+  window.INITIAL_TASKS = INITIAL_TASKS;
+}
+

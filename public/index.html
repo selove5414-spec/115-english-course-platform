@@ -533,7 +533,70 @@
   <div class="toast-notification" id="toast">操作成功！</div>
 
   <!-- JS Scripts -->
-  <script src="data.js?v=115_v3"></script>
-  <script src="app.js?v=115_v3"></script>
+  <script src="data.js?v=115_v4"></script>
+  <script src="app.js?v=115_v4"></script>
+
+  <!-- Instant Inline Capturing Fail-Safe Navigation Handler -->
+  <script>
+    (function() {
+      function doSwitch(view) {
+        if (!view) return;
+        var secs = document.querySelectorAll('.view-section');
+        var target = document.getElementById('sec-' + view);
+        if (!target) return;
+
+        for (var i = 0; i < secs.length; i++) {
+          secs[i].classList.remove('active');
+          secs[i].style.display = 'none';
+        }
+        target.classList.add('active');
+        target.style.display = 'block';
+
+        var navs = document.querySelectorAll('.nav-item, #headerQuickNav [data-nav]');
+        for (var j = 0; j < navs.length; j++) {
+          var v = navs[j].getAttribute('data-view') || navs[j].getAttribute('data-nav');
+          if (v === view) {
+            navs[j].classList.add('active');
+          } else {
+            navs[j].classList.remove('active');
+          }
+        }
+        if (window.location.hash !== '#' + view) {
+          try { history.pushState(null, '', '#' + view); } catch(e){}
+        }
+        window.scrollTo(0, 0);
+      }
+
+      document.addEventListener('click', function(e) {
+        var el = e.target;
+        while (el && el !== document) {
+          if (el.getAttribute) {
+            var v = el.getAttribute('data-view') || el.getAttribute('data-nav');
+            if (!v && el.tagName === 'A' && el.getAttribute('href') && el.getAttribute('href').indexOf('#') === 0) {
+              v = el.getAttribute('href').replace('#', '');
+            }
+            if (v && document.getElementById('sec-' + v)) {
+              e.preventDefault();
+              doSwitch(v);
+              return;
+            }
+          }
+          el = el.parentElement;
+        }
+      }, true);
+
+      window.addEventListener('hashchange', function() {
+        if (window.location.hash) {
+          doSwitch(window.location.hash.replace('#', ''));
+        }
+      });
+
+      window.addEventListener('load', function() {
+        if (window.location.hash) {
+          doSwitch(window.location.hash.replace('#', ''));
+        }
+      });
+    })();
+  </script>
 </body>
 </html>
