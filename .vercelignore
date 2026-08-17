@@ -1,0 +1,8 @@
+server.js
+parse_files.js
+extract_pdf_all.js
+decode_pdf_cmap.js
+dump_pdf_streams.js
+read_all_details.js
+read_docx_properly.js
+read_pdf_properly.js
