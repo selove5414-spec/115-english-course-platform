@@ -1,6 +1,6 @@
 /**
  * 115學年度高中英文課務協作平台 - 核心邏輯 (app.js)
- * 修訂說明：強化側邊欄切換相容性，新增「點進去看」萬用詳細內容彈窗 (detailModal)。
+ * 最新修訂說明：修復切換畫面、增加 Vercel/GitHub 連線與 Notion Markdown 一鍵複製同步專區。
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -70,6 +70,10 @@ document.addEventListener('DOMContentLoaded', () => {
     btnAutoDistributeSetters: document.getElementById('btnAutoDistributeSetters'),
     coeditCurrentUserName: document.getElementById('coeditCurrentUserName'),
     
+    // Notion Sync
+    btnCopyNotionMarkdown: document.getElementById('btnCopyNotionMarkdown'),
+    notionMarkdownPreview: document.getElementById('notionMarkdownPreview'),
+
     // View Content Containers
     timelineContent: document.getElementById('timelineContent'),
     rosterContent: document.getElementById('rosterContent'),
@@ -139,6 +143,14 @@ document.addEventListener('DOMContentLoaded', () => {
     renderQuickUsers();
     renderAllViews();
     bindEvents();
+
+    // Check initial hash
+    if (window.location.hash) {
+      const hashView = window.location.hash.replace('#', '');
+      if (document.getElementById(`sec-${hashView}`)) {
+        switchView(hashView);
+      }
+    }
   }
 
   function showToast(msg) {
@@ -192,10 +204,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // 100% Fail-Proof View Switcher
   function switchView(viewName) {
     state.activeView = viewName;
+    window.location.hash = viewName;
     
-    // Update nav active states
+    // Update sidebar nav active states
     document.querySelectorAll('.nav-item').forEach(item => {
       if (item.getAttribute('data-view') === viewName) {
         item.classList.add('active');
@@ -204,12 +218,23 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    // Update section active states
+    // Update top header quick switcher buttons
+    document.querySelectorAll('#headerQuickNav button').forEach(btn => {
+      if (btn.getAttribute('data-nav') === viewName) {
+        btn.classList.add('active');
+      } else {
+        btn.classList.remove('active');
+      }
+    });
+
+    // Update section active & display styles
     document.querySelectorAll('.view-section').forEach(sec => {
       if (sec.id === `sec-${viewName}`) {
         sec.classList.add('active');
+        sec.style.display = 'block';
       } else {
         sec.classList.remove('active');
+        sec.style.display = 'none';
       }
     });
 
@@ -233,6 +258,7 @@ document.addEventListener('DOMContentLoaded', () => {
     renderMemo();
     renderRubrics();
     renderTemplate();
+    renderNotionPreview();
     renderTasks();
     renderAdmin();
   }
@@ -631,7 +657,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // --------------------------------------------------------------------------
-  // 8. 📄 評量範本 英二A.xlsx Renderer (可「點進去看」單學生試算)
+  // 8. 📄 評量範本 英二A.xlsx Renderer
   // --------------------------------------------------------------------------
   function renderTemplate() {
     const data = RUBRIC_EXCEL_TEMPLATE_DATA;
@@ -680,7 +706,60 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // --------------------------------------------------------------------------
-  // 9. 科務工作開放共編 Task Renderer
+  // 9. 📋 Notion 資料同步與預覽 Renderer
+  // --------------------------------------------------------------------------
+  function renderNotionPreview() {
+    const mdText = `# 📚 115學年度 高中英文科務與教學協作平台 (Notion 匯入專用版)
+
+> 👑 英文科負責人：何妃卿 老師
+> 🤝 代理負責人：陳文宗 老師
+> 🏫 適用學年度：115 學年度 (第一學期 & 第二學期)
+> 🌐 Vercel 線上平台：https://115-english-course-platform.vercel.app
+> 📦 GitHub 原始碼庫：https://github.com/selove5414-spec/115-english-course-platform
+
+---
+
+## 📅 115(1) 行事曆重點日程 (依 115(1)行事曆_0724.pdf 校對)
+
+- [x] 8/25 (一)：期初教學研究會、第 1 次領域會議（負責：何妃卿 老師 / 陳文宗 老師）
+- [x] 8/26 (二)：高一新生始業輔導
+- [x] 8/29 (五)：正式上課日、開學典禮、友善校園週宣導
+- [ ] 9/8 (一)：全高中部與國中部第八節輔導課開始
+- [ ] 9/16 (二) - 9/17 (三)：國九 / 普三 第 1 次學測/會考模擬考
+- [ ] 10/6 (一) - 10/8 (三)：🚨 第一次段考（第1次段考筆試測驗）
+- [ ] 10/8 (三)：第 2 次領域會議與國中評量研討
+- [ ] 10/10 (五)：國慶日連假放假
+- [ ] 10/25 (六)：台灣光復節 (10/26 補假)
+- [ ] 11/15 (六)：🏆 屏榮高中校慶園遊會 (11/17 補假)
+- [ ] 11/26 (三) - 11/28 (五)：🚨 第二次段考（第2次段考筆試測驗）
+- [ ] 12/10 (三) - 12/12 (五)：高二公訓露營
+- [ ] 1/14 (三)：第八節輔導課最後一日上課
+- [ ] 1/15 (四) - 1/16 (五)：🚨 第三次段考 / 期末考筆試測驗
+- [ ] 1/17 (六) - 1/19 (一)：🎓 115學年度 大學學科能力測驗 (學測)
+- [ ] 1/19 (一)：期末暨期初校務會議 / 期末教學研究會
+- [ ] 1/20 (二)：寒假正式開始（辦理寒假補考與重補修）
+
+---
+
+## 📝 115學年度 段考與期末考出題分配表
+
+| 年級 / 科目 | 第 1 次段考 (10/6-10/8) | 第 2 次段考 (11/26-11/28) | 期末考 (1/15-1/16) |
+| :--- | :--- | :--- | :--- |
+| 普高一年級 英文 | 林天宜 老師 | 何妃卿 老師 | 蔡欣妤 老師 |
+| 普高一年級 英聽 | 陳文宗 老師 | 陳文宗 老師 | 陳文宗 老師 |
+| 普高二年級 英文 | 何妃卿 老師 | 陳文宗 老師 | 何妃卿 老師 |
+| 普高二年級 英閱寫作 | 何妃卿 老師 | 何妃卿 老師 | 何妃卿 老師 |
+| 普高三年級 英文 | 顏惠玲 老師 | 蔡欣妤 老師 | 何妃卿 老師 |
+| 普高三年級 英作 | 蔡欣妤 老師 | 何妃卿 老師 | 顏惠玲 老師 |
+`;
+
+    if (elements.notionMarkdownPreview) {
+      elements.notionMarkdownPreview.textContent = mdText;
+    }
+  }
+
+  // --------------------------------------------------------------------------
+  // 10. 科務工作開放共編 Task Renderer
   // --------------------------------------------------------------------------
   function renderTasks() {
     let list = state.tasks;
@@ -774,7 +853,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // --------------------------------------------------------------------------
-  // 10. Admin Panel Renderer
+  // 11. Admin Panel Renderer
   // --------------------------------------------------------------------------
   function renderAdmin() {
     elements.adminTeacherAccountList.innerHTML = state.teachers.map(t => `
@@ -837,10 +916,20 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // --------------------------------------------------------------------------
-  // Event Listeners Binding (Robust Event Handlers)
+  // Event Listeners Binding (Robust Navigation & Copy Handlers)
   // --------------------------------------------------------------------------
   function bindEvents() {
-    // Universal detail modal close handlers
+    // Hash change listener for browser nav
+    window.addEventListener('hashchange', () => {
+      if (window.location.hash) {
+        const hashView = window.location.hash.replace('#', '');
+        if (document.getElementById(`sec-${hashView}`)) {
+          switchView(hashView);
+        }
+      }
+    });
+
+    // Detail modal close handlers
     if (elements.btnCloseDetailModal) {
       elements.btnCloseDetailModal.addEventListener('click', () => elements.detailModal.classList.remove('active'));
     }
@@ -858,12 +947,32 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       };
       item.addEventListener('click', handler);
-      item.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          handler(e);
+    });
+
+    // Top Header Quick Switcher Bar
+    document.querySelectorAll('#headerQuickNav button').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const view = btn.getAttribute('data-nav');
+        if (view) {
+          switchView(view);
         }
       });
     });
+
+    // Copy Notion Markdown
+    if (elements.btnCopyNotionMarkdown) {
+      elements.btnCopyNotionMarkdown.addEventListener('click', () => {
+        if (elements.notionMarkdownPreview) {
+          navigator.clipboard.writeText(elements.notionMarkdownPreview.textContent).then(() => {
+            showToast('已複製 Notion Markdown 文本！可直接貼入 Notion');
+          }).catch(err => {
+            console.error('Clipboard copy failed:', err);
+            showToast('請直接手動選取複製框中文本！');
+          });
+        }
+      });
+    }
 
     // Search and Grade Filters
     elements.searchInput.addEventListener('input', (e) => {

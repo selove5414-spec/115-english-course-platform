@@ -60,6 +60,10 @@
           <span class="icon">📄</span>
           <span>評量範本 (英二A.xlsx)</span>
         </div>
+        <div class="nav-item" data-view="notion" role="button" tabindex="0">
+          <span class="icon">📋</span>
+          <span>Notion 資料同步區</span>
+        </div>
       </div>
 
       <div class="nav-group">
@@ -107,13 +111,31 @@
           <div class="page-icon-large">📖</div>
           <h1 class="page-title">115學年度 高中英文科務與教學協作平台</h1>
           <p class="page-description">
-            本平台整合 115(1) 最新行事曆、教師授課統計表、115學年度雜誌訂購、教學 MEMO 及英二A評量範本。點擊任何項目卡片皆可「點進去看」完整詳細內容。
+            本平台整合 115(1) 最新行事曆、教師授課統計表、115學年度雜誌訂購、教學 MEMO 及英二A評量範本。已完成 GitHub 數據連線、Vercel 全球部署與 Notion 數據同步。
           </p>
 
           <div class="quick-meta-bar">
             <div class="meta-pill">👑 英文科負責人：<strong>何妃卿 老師</strong></div>
             <div class="meta-pill">🤝 代理負責人：<strong>陳文宗 老師</strong></div>
-            <div class="meta-pill">🏫 適用學年度：<strong>115 學年度 (第一學期)</strong></div>
+            <div class="meta-pill">🚀 Vercel 部署：<a href="https://115-english-course-platform.vercel.app" target="_blank" style="color:var(--primary-hover); text-decoration:none; font-weight:700;">115-english-course-platform.vercel.app</a></div>
+            <div class="meta-pill">📦 GitHub 庫：<a href="https://github.com/selove5414-spec/115-english-course-platform" target="_blank" style="color:var(--primary-hover); text-decoration:none; font-weight:700;">selove5414-spec/115-english-course-platform</a></div>
+          </div>
+        </div>
+
+        <!-- Header View Quick Jump Switcher Bar (頁面頂部快捷切換列) -->
+        <div style="margin-bottom: 20px; background: #ffffff; padding: 10px 14px; border-radius: var(--radius-md); border: 1px solid var(--border-color); box-shadow: var(--shadow-sm);">
+          <div style="font-size: 0.78rem; font-weight: 700; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.05em;">⚡ 畫面快捷切換按鈕</div>
+          <div style="display: flex; flex-wrap: wrap; gap: 8px;" id="headerQuickNav">
+            <button class="btn-sm active" data-nav="timeline">📅 115(1)行事曆</button>
+            <button class="btn-sm" data-nav="roster">🏫 任課與授課統計</button>
+            <button class="btn-sm" data-nav="setters">📝 段考出題分配</button>
+            <button class="btn-sm" data-nav="specs">📋 段考題型範圍</button>
+            <button class="btn-sm" data-nav="magazines">📖 雜誌訂購明細</button>
+            <button class="btn-sm" data-nav="memo">📝 高中部教學MEMO</button>
+            <button class="btn-sm" data-nav="rubrics">📊 評量尺規</button>
+            <button class="btn-sm" data-nav="template">📄 評量範本 (英二A)</button>
+            <button class="btn-sm" data-nav="notion">📋 Notion 同步</button>
+            <button class="btn-sm" data-nav="coedit">✏️ 科務工作填寫</button>
           </div>
         </div>
 
@@ -268,7 +290,28 @@
         </section>
 
         <!-- ------------------------------------------------------------------
-             9. 科務工作開放共編區 (Co-Editing Board View)
+             9. 📋 Notion 資料同步與匯出專區 (Notion View)
+             ------------------------------------------------------------------ -->
+        <section class="view-section" id="sec-notion">
+          <div class="in-charge-banner" style="background: linear-gradient(135deg, #f3e8ff 0%, #e9d5ff 100%); border-color: #c084fc; color: #6b21a8;">
+            <h3>📋 Notion 數據同步與一鍵複製區</h3>
+            <p>您可直接點擊下方「一鍵複製 Notion 格式文本」按鈕，貼入 Notion 頁面中即可直接產生資料庫與頁面卡片！</p>
+          </div>
+
+          <div style="display: flex; gap: 12px; margin-bottom: 20px;">
+            <button class="btn-top btn-primary-top" id="btnCopyNotionMarkdown">📋 一鍵複製 Notion 格式 Markdown</button>
+            <a class="btn-top" href="notion_export_115_english.md" target="_blank" style="text-decoration:none;">📄 開啟 notion_export_115_english.md 檔案</a>
+          </div>
+
+          <div class="data-table-wrapper" style="padding: 20px; background: #faf9f6;">
+            <pre id="notionMarkdownPreview" style="white-space: pre-wrap; font-family: monospace; font-size: 0.85rem; color: var(--text-main); line-height: 1.6; max-height: 480px; overflow-y: auto;">
+載入 Notion Markdown 內容中...
+            </pre>
+          </div>
+        </section>
+
+        <!-- ------------------------------------------------------------------
+             10. 科務工作開放共編區 (Co-Editing Board View)
              ------------------------------------------------------------------ -->
         <section class="view-section" id="sec-coedit">
           <div class="coedit-banner">
@@ -290,7 +333,7 @@
         </section>
 
         <!-- ------------------------------------------------------------------
-             10. 主要編輯者後台 (Admin Panel View)
+             11. 主要編輯者後台 (Admin Panel View)
              ------------------------------------------------------------------ -->
         <section class="view-section" id="sec-admin">
           <div class="in-charge-banner" style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border-color: #f59e0b; color: #78350f;">
