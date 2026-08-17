@@ -253,7 +253,15 @@ document.addEventListener('DOMContentLoaded', () => {
   function openDetailModal(title, contentHtml) {
     elements.detailModalTitle.textContent = title;
     elements.detailModalBody.innerHTML = contentHtml;
+    elements.detailModal.style.display = 'flex';
     elements.detailModal.classList.add('active');
+  }
+
+  function closeAllModals() {
+    document.querySelectorAll('.modal-overlay').forEach(modal => {
+      modal.classList.remove('active');
+      modal.style.display = 'none';
+    });
   }
 
   function renderAllViews() {

@@ -533,12 +533,20 @@
   <div class="toast-notification" id="toast">操作成功！</div>
 
   <!-- JS Scripts -->
-  <script src="data.js?v=115_v4"></script>
-  <script src="app.js?v=115_v4"></script>
+  <script src="data.js?v=115_v5"></script>
+  <script src="app.js?v=115_v5"></script>
 
-  <!-- Instant Inline Capturing Fail-Safe Navigation Handler -->
+  <!-- Instant Inline Capturing Fail-Safe Navigation & Modal Close Handler -->
   <script>
     (function() {
+      function closeAllModals() {
+        var overlays = document.querySelectorAll('.modal-overlay');
+        for (var k = 0; k < overlays.length; k++) {
+          overlays[k].classList.remove('active');
+          overlays[k].style.display = 'none';
+        }
+      }
+
       function doSwitch(view) {
         if (!view) return;
         var secs = document.querySelectorAll('.view-section');
@@ -569,6 +577,31 @@
 
       document.addEventListener('click', function(e) {
         var el = e.target;
+        if (!el) return;
+
+        // 1. Universal Modal Close Event Intercept (Close Button, Backdrop Overlay, or Close text)
+        if (el.classList && el.classList.contains('modal-overlay')) {
+          e.preventDefault();
+          closeAllModals();
+          return;
+        }
+
+        var isCloseBtn = el.classList && (el.classList.contains('btn-close-modal') || el.classList.contains('btn-top'));
+        var isCloseId = el.id === 'btnCloseDetailModal' || el.id === 'btnDetailClose' || el.id === 'btnCloseLoginModal' || el.id === 'btnCloseSetterModal' || el.id === 'btnCloseTaskModal';
+        var txt = (el.textContent || '').trim();
+        var isCloseTxt = (txt === '×' || txt === '關閉' || txt === 'X');
+
+        if (isCloseBtn || isCloseId || isCloseTxt) {
+          // Check if it is inside a modal or is a modal close button
+          var parentModal = el.closest ? el.closest('.modal-overlay') : null;
+          if (parentModal || isCloseId || isCloseTxt) {
+            e.preventDefault();
+            closeAllModals();
+            return;
+          }
+        }
+
+        // 2. View switching event intercept
         while (el && el !== document) {
           if (el.getAttribute) {
             var v = el.getAttribute('data-view') || el.getAttribute('data-nav');
@@ -584,6 +617,13 @@
           el = el.parentElement;
         }
       }, true);
+
+      // Escape Key to Close All Modals
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' || e.keyCode === 27) {
+          closeAllModals();
+        }
+      });
 
       window.addEventListener('hashchange', function() {
         if (window.location.hash) {
