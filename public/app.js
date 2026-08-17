@@ -898,6 +898,7 @@ document.addEventListener('DOMContentLoaded', () => {
     elements.setterFormFinalExamTeacher.value = row.finalExam || '';
     elements.setterFormFinalScope.value = row.finalScope || '';
 
+    elements.editSetterModal.style.display = 'flex';
     elements.editSetterModal.classList.add('active');
   }
 
@@ -927,6 +928,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
+    elements.taskModal.style.display = 'flex';
     elements.taskModal.classList.add('active');
   }
 
@@ -998,7 +1000,10 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Login Modal
-    elements.btnSwitchUser.addEventListener('click', () => elements.loginModal.classList.add('active'));
+    elements.btnSwitchUser.addEventListener('click', () => {
+      elements.loginModal.style.display = 'flex';
+      elements.loginModal.classList.add('active');
+    });
     elements.btnCloseLoginModal.addEventListener('click', () => elements.loginModal.classList.remove('active'));
 
     elements.loginForm.addEventListener('submit', (e) => {

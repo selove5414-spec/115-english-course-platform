@@ -533,8 +533,8 @@
   <div class="toast-notification" id="toast">操作成功！</div>
 
   <!-- JS Scripts -->
-  <script src="data.js?v=115_v5"></script>
-  <script src="app.js?v=115_v5"></script>
+  <script src="data.js?v=115_v6"></script>
+  <script src="app.js?v=115_v6"></script>
 
   <!-- Instant Inline Capturing Fail-Safe Navigation & Modal Close Handler -->
   <script>
@@ -586,19 +586,15 @@
           return;
         }
 
-        var isCloseBtn = el.classList && (el.classList.contains('btn-close-modal') || el.classList.contains('btn-top'));
+        var isCloseBtn = el.classList && el.classList.contains('btn-close-modal');
         var isCloseId = el.id === 'btnCloseDetailModal' || el.id === 'btnDetailClose' || el.id === 'btnCloseLoginModal' || el.id === 'btnCloseSetterModal' || el.id === 'btnCloseTaskModal';
         var txt = (el.textContent || '').trim();
-        var isCloseTxt = (txt === '×' || txt === '關閉' || txt === 'X');
+        var isCloseTxt = (txt === '×' || txt === '關閉' || txt === 'X') && (el.closest('.modal-overlay') || isCloseId);
 
         if (isCloseBtn || isCloseId || isCloseTxt) {
-          // Check if it is inside a modal or is a modal close button
-          var parentModal = el.closest ? el.closest('.modal-overlay') : null;
-          if (parentModal || isCloseId || isCloseTxt) {
-            e.preventDefault();
-            closeAllModals();
-            return;
-          }
+          e.preventDefault();
+          closeAllModals();
+          return;
         }
 
         // 2. View switching event intercept
