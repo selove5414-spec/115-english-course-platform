@@ -1,6 +1,6 @@
 /**
  * 115學年度高中英文課務協作平台 - 核心邏輯 (app.js)
- * 最新修訂說明：修復切換畫面、增加 Vercel/GitHub 連線與 Notion Markdown 一鍵複製同步專區。
+ * 最新修訂說明：採用全域事件委派 (Event Delegation) 確保側邊欄與頂部選單 100% 點擊流暢切換。
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -49,7 +49,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // --------------------------------------------------------------------------
   const elements = {
     mainWrapper: document.getElementById('mainWrapper'),
-    navItems: document.querySelectorAll('.nav-item'),
     sections: document.querySelectorAll('.view-section'),
     sidebarUserName: document.getElementById('sidebarUserName'),
     sidebarUserRole: document.getElementById('sidebarUserRole'),
@@ -144,12 +143,12 @@ document.addEventListener('DOMContentLoaded', () => {
     renderAllViews();
     bindEvents();
 
-    // Check initial hash
-    if (window.location.hash) {
-      const hashView = window.location.hash.replace('#', '');
-      if (document.getElementById(`sec-${hashView}`)) {
-        switchView(hashView);
-      }
+    // Initial view from Hash or default timeline
+    const hash = window.location.hash.replace('#', '');
+    if (hash && document.getElementById(`sec-${hash}`)) {
+      switchView(hash);
+    } else {
+      switchView('timeline');
     }
   }
 
@@ -204,13 +203,19 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 100% Fail-Proof View Switcher
+  // 100% Fail-Proof View Switcher Engine
   function switchView(viewName) {
+    if (!viewName || !document.getElementById(`sec-${viewName}`)) return;
+
     state.activeView = viewName;
-    window.location.hash = viewName;
     
+    // Smoothly update Hash without forced page reload
+    if (window.location.hash !== `#${viewName}`) {
+      history.pushState(null, '', `#${viewName}`);
+    }
+
     // Update sidebar nav active states
-    document.querySelectorAll('.nav-item').forEach(item => {
+    document.querySelectorAll('.sidebar .nav-item').forEach(item => {
       if (item.getAttribute('data-view') === viewName) {
         item.classList.add('active');
       } else {
@@ -219,7 +224,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Update top header quick switcher buttons
-    document.querySelectorAll('#headerQuickNav button').forEach(btn => {
+    document.querySelectorAll('#headerQuickNav [data-nav]').forEach(btn => {
       if (btn.getAttribute('data-nav') === viewName) {
         btn.classList.add('active');
       } else {
@@ -227,7 +232,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    // Update section active & display styles
+    // Update section active & inline display styles
     document.querySelectorAll('.view-section').forEach(sec => {
       if (sec.id === `sec-${viewName}`) {
         sec.classList.add('active');
@@ -916,15 +921,27 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // --------------------------------------------------------------------------
-  // Event Listeners Binding (Robust Navigation & Copy Handlers)
+  // Event Listeners Binding (Global Event Delegation)
   // --------------------------------------------------------------------------
   function bindEvents() {
-    // Hash change listener for browser nav
+    // Hash change listener for browser navigation
     window.addEventListener('hashchange', () => {
       if (window.location.hash) {
         const hashView = window.location.hash.replace('#', '');
         if (document.getElementById(`sec-${hashView}`)) {
           switchView(hashView);
+        }
+      }
+    });
+
+    // Universal Document-Level Event Delegation for view switching
+    document.addEventListener('click', (e) => {
+      const target = e.target.closest('[data-view], [data-nav]');
+      if (target) {
+        const view = target.getAttribute('data-view') || target.getAttribute('data-nav');
+        if (view && document.getElementById(`sec-${view}`)) {
+          e.preventDefault();
+          switchView(view);
         }
       }
     });
@@ -936,29 +953,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (elements.btnDetailClose) {
       elements.btnDetailClose.addEventListener('click', () => elements.detailModal.classList.remove('active'));
     }
-
-    // Sidebar navigation switching
-    document.querySelectorAll('.nav-item').forEach(item => {
-      const handler = (e) => {
-        e.preventDefault();
-        const view = item.getAttribute('data-view');
-        if (view) {
-          switchView(view);
-        }
-      };
-      item.addEventListener('click', handler);
-    });
-
-    // Top Header Quick Switcher Bar
-    document.querySelectorAll('#headerQuickNav button').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        e.preventDefault();
-        const view = btn.getAttribute('data-nav');
-        if (view) {
-          switchView(view);
-        }
-      });
-    });
 
     // Copy Notion Markdown
     if (elements.btnCopyNotionMarkdown) {
@@ -1094,7 +1088,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     elements.btnFilterOnlyMine.addEventListener('click', () => {
-      elements.btnFilterOnlyMine.classList.add('active');
+      elements.btnFilterOnlyMine.classList.active && elements.btnFilterOnlyMine.classList.add('active');
       elements.btnFilterMyTasks.classList.remove('active');
       state.onlyMine = true;
       renderTasks();

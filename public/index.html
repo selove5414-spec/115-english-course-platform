@@ -24,59 +24,59 @@
 
       <div class="nav-group">
         <div class="nav-title">課務核心視圖</div>
-        <div class="nav-item active" data-view="timeline" role="button" tabindex="0">
+        <a href="#timeline" class="nav-item active" data-view="timeline">
           <span class="icon">📅</span>
           <span>115(1)最新行事曆</span>
-        </div>
-        <div class="nav-item" data-view="roster" role="button" tabindex="0">
+        </a>
+        <a href="#roster" class="nav-item" data-view="roster">
           <span class="icon">🏫</span>
           <span>115任課與授課統計</span>
-        </div>
-        <div class="nav-item" data-view="setters" role="button" tabindex="0">
+        </a>
+        <a href="#setters" class="nav-item" data-view="setters">
           <span class="icon">📝</span>
           <span>段考出題分配與範圍</span>
-        </div>
-        <div class="nav-item" data-view="specs" role="button" tabindex="0">
+        </a>
+        <a href="#specs" class="nav-item" data-view="specs">
           <span class="icon">📋</span>
           <span>段考題型與範圍(更新區)</span>
-        </div>
+        </a>
       </div>
 
       <div class="nav-group">
         <div class="nav-title">教學資源與MEMO</div>
-        <div class="nav-item" data-view="magazines" role="button" tabindex="0">
+        <a href="#magazines" class="nav-item" data-view="magazines">
           <span class="icon">📖</span>
           <span>書卷雜誌訂購資訊</span>
-        </div>
-        <div class="nav-item" data-view="memo" role="button" tabindex="0">
+        </a>
+        <a href="#memo" class="nav-item" data-view="memo">
           <span class="icon">📝</span>
           <span>高中部教學MEMO</span>
-        </div>
-        <div class="nav-item" data-view="rubrics" role="button" tabindex="0">
+        </a>
+        <a href="#rubrics" class="nav-item" data-view="rubrics">
           <span class="icon">📊</span>
           <span>評量尺規標準</span>
-        </div>
-        <div class="nav-item" data-view="template" role="button" tabindex="0">
+        </a>
+        <a href="#template" class="nav-item" data-view="template">
           <span class="icon">📄</span>
           <span>評量範本 (英二A.xlsx)</span>
-        </div>
-        <div class="nav-item" data-view="notion" role="button" tabindex="0">
+        </a>
+        <a href="#notion" class="nav-item" data-view="notion">
           <span class="icon">📋</span>
           <span>Notion 資料同步區</span>
-        </div>
+        </a>
       </div>
 
       <div class="nav-group">
         <div class="nav-title">線上協作與管理</div>
-        <div class="nav-item" data-view="coedit" role="button" tabindex="0">
+        <a href="#coedit" class="nav-item" data-view="coedit">
           <span class="icon">✏️</span>
           <span>科務工作填寫區</span>
           <span class="nav-badge" id="taskCountBadge">0</span>
-        </div>
-        <div class="nav-item" data-view="admin" id="navAdminItem" style="display: none;" role="button" tabindex="0">
+        </a>
+        <a href="#admin" class="nav-item" id="navAdminItem" style="display: none;" data-view="admin">
           <span class="icon">👑</span>
           <span>主要編輯者後台</span>
-        </div>
+        </a>
       </div>
 
       <!-- Current User Profile in Sidebar Bottom -->
@@ -111,7 +111,7 @@
           <div class="page-icon-large">📖</div>
           <h1 class="page-title">115學年度 高中英文科務與教學協作平台</h1>
           <p class="page-description">
-            本平台整合 115(1) 最新行事曆、教師授課統計表、115學年度雜誌訂購、教學 MEMO 及英二A評量範本。已完成 GitHub 數據連線、Vercel 全球部署與 Notion 數據同步。
+            本平台整合 115(1) 最新行事曆、教師授課統計表、115學年度雜誌訂購、教學 MEMO 及英二A評量範本。點擊左側選單、頂部快捷按鈕或項目卡片皆可即時切換與查看詳細內容。
           </p>
 
           <div class="quick-meta-bar">
@@ -126,16 +126,16 @@
         <div style="margin-bottom: 20px; background: #ffffff; padding: 10px 14px; border-radius: var(--radius-md); border: 1px solid var(--border-color); box-shadow: var(--shadow-sm);">
           <div style="font-size: 0.78rem; font-weight: 700; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.05em;">⚡ 畫面快捷切換按鈕</div>
           <div style="display: flex; flex-wrap: wrap; gap: 8px;" id="headerQuickNav">
-            <button class="btn-sm active" data-nav="timeline">📅 115(1)行事曆</button>
-            <button class="btn-sm" data-nav="roster">🏫 任課與授課統計</button>
-            <button class="btn-sm" data-nav="setters">📝 段考出題分配</button>
-            <button class="btn-sm" data-nav="specs">📋 段考題型範圍</button>
-            <button class="btn-sm" data-nav="magazines">📖 雜誌訂購明細</button>
-            <button class="btn-sm" data-nav="memo">📝 高中部教學MEMO</button>
-            <button class="btn-sm" data-nav="rubrics">📊 評量尺規</button>
-            <button class="btn-sm" data-nav="template">📄 評量範本 (英二A)</button>
-            <button class="btn-sm" data-nav="notion">📋 Notion 同步</button>
-            <button class="btn-sm" data-nav="coedit">✏️ 科務工作填寫</button>
+            <a href="#timeline" class="btn-sm active" data-nav="timeline" style="text-decoration:none;">📅 115(1)行事曆</a>
+            <a href="#roster" class="btn-sm" data-nav="roster" style="text-decoration:none;">🏫 任課與授課統計</a>
+            <a href="#setters" class="btn-sm" data-nav="setters" style="text-decoration:none;">📝 段考出題分配</a>
+            <a href="#specs" class="btn-sm" data-nav="specs" style="text-decoration:none;">📋 段考題型範圍</a>
+            <a href="#magazines" class="btn-sm" data-nav="magazines" style="text-decoration:none;">📖 雜誌訂購明細</a>
+            <a href="#memo" class="btn-sm" data-nav="memo" style="text-decoration:none;">📝 高中部教學MEMO</a>
+            <a href="#rubrics" class="btn-sm" data-nav="rubrics" style="text-decoration:none;">📊 評量尺規</a>
+            <a href="#template" class="btn-sm" data-nav="template" style="text-decoration:none;">📄 評量範本 (英二A)</a>
+            <a href="#notion" class="btn-sm" data-nav="notion" style="text-decoration:none;">📋 Notion 同步</a>
+            <a href="#coedit" class="btn-sm" data-nav="coedit" style="text-decoration:none;">✏️ 科務工作填寫</a>
           </div>
         </div>
 
