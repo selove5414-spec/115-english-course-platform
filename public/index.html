@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>115學年度高中英文課務工作與開放共編平台 | 屏榮高中英文科</title>
+  <meta name="description" content="屏榮高中115學年度高中英文科課務工作整合與共編平台，包含115(1)最新行事曆、任課統計、雜誌訂購、教學MEMO與線上出題分配。">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div id="app">
+    <!-- --------------------------------------------------------------------
+         Sidebar Navigation (Notion Style)
+         -------------------------------------------------------------------- -->
+    <aside class="sidebar">
+      <div class="workspace-header">
+        <div class="workspace-icon">📚</div>
+        <div class="workspace-info">
+          <div class="title">115學年度 英文科</div>
+          <div class="subtitle">屏榮高中高中部課務平台</div>
+        </div>
+      </div>
+
+      <div class="nav-group">
+        <div class="nav-title">課務核心視圖</div>
+        <div class="nav-item active" data-view="timeline" role="button" tabindex="0">
+          <span class="icon">📅</span>
+          <span>115(1)最新行事曆</span>
+        </div>
+        <div class="nav-item" data-view="roster" role="button" tabindex="0">
+          <span class="icon">🏫</span>
+          <span>115任課與授課統計</span>
+        </div>
+        <div class="nav-item" data-view="setters" role="button" tabindex="0">
+          <span class="icon">📝</span>
+          <span>段考出題分配與範圍</span>
+        </div>
+        <div class="nav-item" data-view="specs" role="button" tabindex="0">
+          <span class="icon">📋</span>
+          <span>段考題型與範圍(更新區)</span>
+        </div>
+      </div>
+
+      <div class="nav-group">
+        <div class="nav-title">教學資源與MEMO</div>
+        <div class="nav-item" data-view="magazines" role="button" tabindex="0">
+          <span class="icon">📖</span>
+          <span>書卷雜誌訂購資訊</span>
+        </div>
+        <div class="nav-item" data-view="memo" role="button" tabindex="0">
+          <span class="icon">📝</span>
+          <span>高中部教學MEMO</span>
+        </div>
+        <div class="nav-item" data-view="rubrics" role="button" tabindex="0">
+          <span class="icon">📊</span>
+          <span>評量尺規標準</span>
+        </div>
+        <div class="nav-item" data-view="template" role="button" tabindex="0">
+          <span class="icon">📄</span>
+          <span>評量範本 (英二A.xlsx)</span>
+        </div>
+        <div class="nav-item" data-view="notion" role="button" tabindex="0">
+          <span class="icon">📋</span>
+          <span>Notion 資料同步區</span>
+        </div>
+      </div>
+
+      <div class="nav-group">
+        <div class="nav-title">線上協作與管理</div>
+        <div class="nav-item" data-view="coedit" role="button" tabindex="0">
+          <span class="icon">✏️</span>
+          <span>科務工作填寫區</span>
+          <span class="nav-badge" id="taskCountBadge">0</span>
+        </div>
+        <div class="nav-item" data-view="admin" id="navAdminItem" style="display: none;" role="button" tabindex="0">
+          <span class="icon">👑</span>
+          <span>主要編輯者後台</span>
+        </div>
+      </div>
+
+      <!-- Current User Profile in Sidebar Bottom -->
+      <div class="user-profile-card">
+        <div class="user-avatar" id="sidebarAvatar">👑</div>
+        <div class="user-details">
+          <div class="user-name" id="sidebarUserName">何妃卿 老師</div>
+          <div class="user-role-tag" id="sidebarUserRole">科負責人</div>
+        </div>
+        <button class="btn-switch-user" id="btnSwitchUser" title="切換帳號 / 登入">🔑</button>
+      </div>
+    </aside>
+
+    <!-- --------------------------------------------------------------------
+         Main Content Area
+         -------------------------------------------------------------------- -->
+    <main class="main-wrapper" id="mainWrapper">
+      <!-- Top Notion Cover Banner -->
+      <header class="notion-cover">
+        <div class="notion-cover-overlay">
+          <div class="top-bar-controls">
+            <button class="btn-top" id="btnExportData">📥 匯出 JSON 備份</button>
+            <button class="btn-top" id="btnResetData">🔄 恢復預設資料</button>
+            <button class="btn-top btn-primary-top" id="btnNewTask">➕ 新增課務事項</button>
+          </div>
+        </div>
+      </header>
+
+      <!-- Main Page Body -->
+      <div class="notion-body">
+        <div class="page-header-block">
+          <div class="page-icon-large">📖</div>
+          <h1 class="page-title">115學年度 高中英文科務與教學協作平台</h1>
+          <p class="page-description">
+            本平台整合 115(1) 最新行事曆、教師授課統計表、115學年度雜誌訂購、教學 MEMO 及英二A評量範本。已完成 GitHub 數據連線、Vercel 全球部署與 Notion 數據同步。
+          </p>
+
+          <div class="quick-meta-bar">
+            <div class="meta-pill">👑 英文科負責人：<strong>何妃卿 老師</strong></div>
+            <div class="meta-pill">🤝 代理負責人：<strong>陳文宗 老師</strong></div>
+            <div class="meta-pill">🚀 Vercel 部署：<a href="https://115-english-course-platform.vercel.app" target="_blank" style="color:var(--primary-hover); text-decoration:none; font-weight:700;">115-english-course-platform.vercel.app</a></div>
+            <div class="meta-pill">📦 GitHub 庫：<a href="https://github.com/selove5414-spec/115-english-course-platform" target="_blank" style="color:var(--primary-hover); text-decoration:none; font-weight:700;">selove5414-spec/115-english-course-platform</a></div>
+          </div>
+        </div>
+
+        <!-- Header View Quick Jump Switcher Bar (頁面頂部快捷切換列) -->
+        <div style="margin-bottom: 20px; background: #ffffff; padding: 10px 14px; border-radius: var(--radius-md); border: 1px solid var(--border-color); box-shadow: var(--shadow-sm);">
+          <div style="font-size: 0.78rem; font-weight: 700; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.05em;">⚡ 畫面快捷切換按鈕</div>
+          <div style="display: flex; flex-wrap: wrap; gap: 8px;" id="headerQuickNav">
+            <button class="btn-sm active" data-nav="timeline">📅 115(1)行事曆</button>
+            <button class="btn-sm" data-nav="roster">🏫 任課與授課統計</button>
+            <button class="btn-sm" data-nav="setters">📝 段考出題分配</button>
+            <button class="btn-sm" data-nav="specs">📋 段考題型範圍</button>
+            <button class="btn-sm" data-nav="magazines">📖 雜誌訂購明細</button>
+            <button class="btn-sm" data-nav="memo">📝 高中部教學MEMO</button>
+            <button class="btn-sm" data-nav="rubrics">📊 評量尺規</button>
+            <button class="btn-sm" data-nav="template">📄 評量範本 (英二A)</button>
+            <button class="btn-sm" data-nav="notion">📋 Notion 同步</button>
+            <button class="btn-sm" data-nav="coedit">✏️ 科務工作填寫</button>
+          </div>
+        </div>
+
+        <!-- Toolbar (Search & Filters) -->
+        <div class="view-toolbar">
+          <div class="search-filter-box" style="width: 100%; justify-content: space-between;">
+            <input type="text" class="search-input" id="searchInput" placeholder="🔍 搜尋關鍵字、科目或老師姓名..." style="flex: 1; max-width: 380px;">
+            <div style="display: flex; gap: 10px;">
+              <select class="filter-select" id="gradeFilterSelect">
+                <option value="all">全新年級 / 類別</option>
+                <option value="普高一年級">普高一年級</option>
+                <option value="普高二年級">普高二年級</option>
+                <option value="普高三年級">普高三年級</option>
+                <option value="國中部">國中部</option>
+                <option value="技高 / 職業類科">技高 / 職業類科</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- ------------------------------------------------------------------
+             1. 115(1) 行事曆時間線 (Timeline View)
+             ------------------------------------------------------------------ -->
+        <section class="view-section active" id="sec-timeline">
+          <div style="margin-bottom: 12px; font-size: 0.85rem; color: var(--text-muted);">💡 提示：點擊任何日程卡片即可「點進去看」詳細資訊。</div>
+          <div class="timeline-container" id="timelineContent">
+            <!-- Rendered by JS -->
+          </div>
+        </section>
+
+        <!-- ------------------------------------------------------------------
+             2. 115任課與授課統計 (Roster View)
+             ------------------------------------------------------------------ -->
+        <section class="view-section" id="sec-roster">
+          <div class="in-charge-banner">
+            <h3>👑 115學年度 高中部英文事務負責人</h3>
+            <p><strong>負責人：何妃卿 老師</strong> | <strong>代理負責人：陳文宗 老師</strong></p>
+            <ul>
+              <li>1. 掌管 115 學年度全校英文科務會議、授課節數統計與段考調配。</li>
+              <li>2. 自動依任課班級平均分配高一至高三段考與英聽出題教師職責。</li>
+              <li>3. 統籌 115 學年度 LiveABC、空中英語教室與常春藤雜誌訂購配送。</li>
+            </ul>
+          </div>
+          <div style="margin-bottom: 12px; font-size: 0.85rem; color: var(--text-muted);">💡 提示：點擊任何班級項目即可「點進去看」詳細授課統計與資訊。</div>
+          <div class="roster-grid" id="rosterContent">
+            <!-- Rendered by JS -->
+          </div>
+        </section>
+
+        <!-- ------------------------------------------------------------------
+             3. 段考出題分配與範圍 (Question Setters & Scope View)
+             ------------------------------------------------------------------ -->
+        <section class="view-section" id="sec-setters">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;">
+            <div>
+              <h2 style="font-size: 1.25rem; font-weight: 700; color: var(--text-main);">📝 115學年度 段考與期末考出題分配表</h2>
+              <div style="font-size: 0.85rem; color: var(--text-muted);">系統依任課班級自動均勻分配。點擊表格任一列即可「點進去看」或修改範圍。</div>
+            </div>
+            <button class="btn-top btn-primary-top" id="btnAutoDistributeSetters">⚡ 重新自動依班級平均分配</button>
+          </div>
+
+          <div class="data-table-wrapper">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>年級 / 科目</th>
+                  <th>第 1 次段考出題</th>
+                  <th>第 1 次段考範圍</th>
+                  <th>第 2 次段考出題</th>
+                  <th>第 2 次段考範圍</th>
+                  <th>期末考出題</th>
+                  <th>期末考範圍</th>
+                  <th>操作</th>
+                </tr>
+              </thead>
+              <tbody id="settersTbody">
+                <!-- Rendered by JS -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ------------------------------------------------------------------
+             4. 段考題型與範圍線上更新 (Exam Specs View)
+             ------------------------------------------------------------------ -->
+        <section class="view-section" id="sec-specs">
+          <div style="background: #fffbeb; border: 1px solid #fef3c7; padding: 16px; border-radius: var(--radius-md); margin-bottom: 20px; font-size: 0.9rem; color: #92400e;">
+            💡 <strong>提示：</strong> 段考範圍預設留白，點擊任何題型卡片即可「點進去看」或線上更新範圍。
+          </div>
+          <div class="spec-cards-container" id="specsContent">
+            <!-- Rendered by JS -->
+          </div>
+        </section>
+
+        <!-- ------------------------------------------------------------------
+             5. 📖 115學年度書卷雜誌訂購 (Magazines View)
+             ------------------------------------------------------------------ -->
+        <section class="view-section" id="sec-magazines">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
+            <h2 style="font-size: 1.25rem; font-weight: 700;">📖 115學年度 全校書卷與雜誌訂購明細</h2>
+            <span style="font-size: 0.85rem; color: var(--text-muted);">💡 點擊卡片可「點進去看」訂購細節</span>
+          </div>
+          <div class="roster-grid" id="magazinesContent">
+            <!-- Rendered by JS -->
+          </div>
+        </section>
+
+        <!-- ------------------------------------------------------------------
+             6. 📝 高中部教學 MEMO (Memo View)
+             ------------------------------------------------------------------ -->
+        <section class="view-section" id="sec-memo">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
+            <h2 style="font-size: 1.25rem; font-weight: 700;">📝 115學年度 高中部教學 MEMO 與競賽日程</h2>
+            <span style="font-size: 0.85rem; color: var(--text-muted);">💡 點擊卡片可「點進去看」完整備忘錄</span>
+          </div>
+          <div class="spec-cards-container" id="memoContent">
+            <!-- Rendered by JS -->
+          </div>
+        </section>
+
+        <!-- ------------------------------------------------------------------
+             7. 📊 評量尺規標準 (Rubrics View)
+             ------------------------------------------------------------------ -->
+        <section class="view-section" id="sec-rubrics">
+          <div style="margin-bottom: 16px; font-size: 0.85rem; color: var(--text-muted);">💡 點擊評量卡片可「點進去看」詳細比例說明</div>
+          <div class="rubric-grid" id="rubricsContent">
+            <!-- Rendered by JS -->
+          </div>
+        </section>
+
+        <!-- ------------------------------------------------------------------
+             8. 📄 評量範本 英二A.xlsx (Excel Template View)
+             ------------------------------------------------------------------ -->
+        <section class="view-section" id="sec-template">
+          <div class="in-charge-banner" style="background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%); border-color: #818cf8; color: #3730a3;">
+            <h3>📄 評量尺規參考範本：英二A.xlsx (學生名單已遮蔽)</h3>
+            <p>包含大卷、小卷、作業、英聽、一段(20%)、期中考(20%)、期末考(20%)與平常平均分數(40%)計算公式。點擊單列可「點進去看」詳細試算。</p>
+          </div>
+
+          <div class="data-table-wrapper">
+            <table class="data-table">
+              <thead>
+                <tr id="templateTheadRow">
+                  <!-- Rendered by JS -->
+                </tr>
+              </thead>
+              <tbody id="templateTbody">
+                <!-- Rendered by JS -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ------------------------------------------------------------------
+             9. 📋 Notion 資料同步與匯出專區 (Notion View)
+             ------------------------------------------------------------------ -->
+        <section class="view-section" id="sec-notion">
+          <div class="in-charge-banner" style="background: linear-gradient(135deg, #f3e8ff 0%, #e9d5ff 100%); border-color: #c084fc; color: #6b21a8;">
+            <h3>📋 Notion 數據同步與一鍵複製區</h3>
+            <p>您可直接點擊下方「一鍵複製 Notion 格式文本」按鈕，貼入 Notion 頁面中即可直接產生資料庫與頁面卡片！</p>
+          </div>
+
+          <div style="display: flex; gap: 12px; margin-bottom: 20px;">
+            <button class="btn-top btn-primary-top" id="btnCopyNotionMarkdown">📋 一鍵複製 Notion 格式 Markdown</button>
+            <a class="btn-top" href="notion_export_115_english.md" target="_blank" style="text-decoration:none;">📄 開啟 notion_export_115_english.md 檔案</a>
+          </div>
+
+          <div class="data-table-wrapper" style="padding: 20px; background: #faf9f6;">
+            <pre id="notionMarkdownPreview" style="white-space: pre-wrap; font-family: monospace; font-size: 0.85rem; color: var(--text-main); line-height: 1.6; max-height: 480px; overflow-y: auto;">
+載入 Notion Markdown 內容中...
+            </pre>
+          </div>
+        </section>
+
+        <!-- ------------------------------------------------------------------
+             10. 科務工作開放共編區 (Co-Editing Board View)
+             ------------------------------------------------------------------ -->
+        <section class="view-section" id="sec-coedit">
+          <div class="coedit-banner">
+            <div class="info-text">
+              <strong>✍️ 線上開放共編平台</strong>
+              <div>目前登入者：<span id="coeditCurrentUserName" style="font-weight: 700;">何妃卿 老師</span>。每位老師皆可勾選進度、新增工作備註；負責老師可管理與修改所有數據。</div>
+            </div>
+            <button class="btn-top btn-primary-top" id="btnCoeditNewTask">➕ 新增工作項目</button>
+          </div>
+
+          <div style="display: flex; gap: 12px; margin-bottom: 16px;">
+            <button class="tab-btn active" id="btnFilterMyTasks">顯示全校任務</button>
+            <button class="tab-btn" id="btnFilterOnlyMine">僅顯示我的任務</button>
+          </div>
+
+          <div class="task-cards-grid" id="tasksList">
+            <!-- Rendered by JS -->
+          </div>
+        </section>
+
+        <!-- ------------------------------------------------------------------
+             11. 主要編輯者後台 (Admin Panel View)
+             ------------------------------------------------------------------ -->
+        <section class="view-section" id="sec-admin">
+          <div class="in-charge-banner" style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border-color: #f59e0b; color: #78350f;">
+            <h3>👑 英文科負責人 (何妃卿 老師) 全權管理後台</h3>
+            <p>您目前以<strong>英文科負責人 (主要編輯者)</strong> 權限登入。您可以自由更新任課老師分配、更換各項出題人員、重置密碼與線上編輯出題範圍。</p>
+          </div>
+
+          <div class="roster-grid">
+            <div class="roster-card">
+              <div class="roster-card-header">
+                <span class="icon">👥</span>
+                <h3>教師帳號管理與密碼查看</h3>
+              </div>
+              <div class="subject-item-list" id="adminTeacherAccountList">
+                <!-- Rendered by JS -->
+              </div>
+            </div>
+
+            <div class="roster-card">
+              <div class="roster-card-header">
+                <span class="icon">⚙️</span>
+                <h3>快速替換任課老師</h3>
+              </div>
+              <div style="font-size: 0.9rem; line-height: 1.6; color: var(--text-muted);">
+                選擇欲替換之科目與新任課老師：
+                <div class="form-group" style="margin-top: 12px;">
+                  <label class="form-label">選擇班級 / 科目</label>
+                  <select class="form-control" id="adminSelectCourse">
+                    <option value="英一A">普一 英一A</option>
+                    <option value="英一B">普一 英一B</option>
+                    <option value="英一C">普一 英一C</option>
+                    <option value="普一英聽">普一 英語聽講</option>
+                    <option value="普二1英文">普二1 英文</option>
+                    <option value="普二2英文">普二2 英文</option>
+                    <option value="英三A">普三 英三A</option>
+                    <option value="英三B">普三 英三B</option>
+                    <option value="英三C">普三 英三C</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">新指定任課老師</label>
+                  <select class="form-control" id="adminSelectTeacher">
+                    <option value="何妃卿 老師">何妃卿 老師</option>
+                    <option value="陳文宗 老師">陳文宗 老師</option>
+                    <option value="林天宜 老師">林天宜 老師</option>
+                    <option value="蔡欣妤 老師">蔡欣妤 老師</option>
+                    <option value="顏惠玲 老師">顏惠玲 老師</option>
+                    <option value="黃蘭婷 老師">黃蘭婷 老師</option>
+                  </select>
+                </div>
+                <button class="btn-top btn-primary-top" id="btnAdminUpdateTeacher" style="width: 100%; justify-content: center;">💾 套用更新至任課表</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- ----------------------------------------------------------------------
+       Modal: Universal Item Detail View Modal (點進去看詳細內容)
+       ---------------------------------------------------------------------- -->
+  <div class="modal-overlay" id="detailModal">
+    <div class="modal-container" style="max-width: 640px;">
+      <div class="modal-header">
+        <div class="modal-title" id="detailModalTitle">📄 詳細內容檢視</div>
+        <button class="btn-close-modal" id="btnCloseDetailModal">&times;</button>
+      </div>
+      <div class="modal-body" id="detailModalBody" style="line-height: 1.8; font-size: 0.95rem;">
+        <!-- Rendered by JS -->
+      </div>
+      <div class="modal-footer" id="detailModalFooter" style="margin-top: 20px; display: flex; justify-content: flex-end; gap: 10px;">
+        <button class="btn-top" id="btnDetailClose">關閉</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ----------------------------------------------------------------------
+       Modal: User Login & Quick Switch Modal
+       ---------------------------------------------------------------------- -->
+  <div class="modal-overlay" id="loginModal">
+    <div class="modal-container">
+      <div class="modal-header">
+        <div class="modal-title">🔑 教師帳號登入 / 身份切換</div>
+        <button class="btn-close-modal" id="btnCloseLoginModal">&times;</button>
+      </div>
+      <form id="loginForm">
+        <div class="form-group">
+          <label class="form-label">帳號 (Username)</label>
+          <input type="text" class="form-control" id="loginUsername" placeholder="帳號 (例如: ho, chen, lin, tsai)" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">密碼 (Password)</label>
+          <input type="password" class="form-control" id="loginPassword" placeholder="密碼 (預設為 11502, 11504 等)" required>
+        </div>
+        <button type="submit" class="btn-top btn-primary-top" style="width: 100%; justify-content: center; margin-top: 12px; padding: 10px;">登入共編平台</button>
+      </form>
+
+      <div style="margin-top: 20px; font-size: 0.82rem; color: var(--text-muted); border-top: 1px solid var(--border-color); padding-top: 14px;">
+        <strong>⚡ 快速一鍵體驗登入（點擊直接切換）：</strong>
+        <div class="quick-users-list" id="quickUsersContainer">
+          <!-- Rendered by JS -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ----------------------------------------------------------------------
+       Modal: Edit Exam Setter Scope Modal
+       ---------------------------------------------------------------------- -->
+  <div class="modal-overlay" id="editSetterModal">
+    <div class="modal-container">
+      <div class="modal-header">
+        <div class="modal-title">✏️ 線上修改段考出題人員與範圍</div>
+        <button class="btn-close-modal" id="btnCloseSetterModal">&times;</button>
+      </div>
+      <form id="editSetterForm">
+        <input type="hidden" id="setterFormId">
+        <div class="form-group">
+          <label class="form-label">科目與年級</label>
+          <input type="text" class="form-control" id="setterFormGradeSubject" readonly>
+        </div>
+        <div class="form-group">
+          <label class="form-label">第 1 次段考出題老師與範圍</label>
+          <div style="display: flex; gap: 8px; margin-bottom: 6px;">
+            <input type="text" class="form-control" id="setterFormExam1Teacher" placeholder="出題老師">
+          </div>
+          <input type="text" class="form-control" id="setterFormScope1" placeholder="輸入第1次段考範圍 (如: 課本L1-L3, 雜誌3月號...)">
+        </div>
+        <div class="form-group">
+          <label class="form-label">第 2 次段考出題老師與範圍</label>
+          <div style="display: flex; gap: 8px; margin-bottom: 6px;">
+            <input type="text" class="form-control" id="setterFormExam2Teacher" placeholder="出題老師">
+          </div>
+          <input type="text" class="form-control" id="setterFormScope2" placeholder="輸入第2次段考範圍...">
+        </div>
+        <div class="form-group">
+          <label class="form-label">期末考出題老師與範圍</label>
+          <div style="display: flex; gap: 8px; margin-bottom: 6px;">
+            <input type="text" class="form-control" id="setterFormFinalExamTeacher" placeholder="期末考出題老師">
+          </div>
+          <input type="text" class="form-control" id="setterFormFinalScope" placeholder="輸入期末考範圍...">
+        </div>
+        <button type="submit" class="btn-top btn-primary-top" style="width: 100%; justify-content: center; padding: 10px;">💾 儲存出題分配與範圍</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ----------------------------------------------------------------------
+       Modal: Create / Edit Task Modal
+       ---------------------------------------------------------------------- -->
+  <div class="modal-overlay" id="taskModal">
+    <div class="modal-container">
+      <div class="modal-header">
+        <div class="modal-title" id="taskModalTitle">➕ 新增科務工作事項</div>
+        <button class="btn-close-modal" id="btnCloseTaskModal">&times;</button>
+      </div>
+      <form id="taskForm">
+        <input type="hidden" id="taskFormId">
+        <div class="form-group">
+          <label class="form-label">工作事項名稱</label>
+          <input type="text" class="form-control" id="taskFormTitle" placeholder="例如: 高一第一次段考大卷閱卷與登記" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">負責老師</label>
+          <select class="form-control" id="taskFormAssignee">
+            <!-- Rendered by JS -->
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">適用年級與科目</label>
+          <div style="display: flex; gap: 10px;">
+            <select class="form-control" id="taskFormGrade">
+              <option value="普高一年級">普高一年級</option>
+              <option value="普高二年級">普高二年級</option>
+              <option value="普高三年級">普高三年級</option>
+              <option value="全高中部">全高中部</option>
+            </select>
+            <input type="text" class="form-control" id="taskFormSubject" placeholder="科目 (如: 英文/英聽)">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">截止日期 (Due Date)</label>
+          <input type="date" class="form-control" id="taskFormDueDate">
+        </div>
+        <div class="form-group">
+          <label class="form-label">工作內容與備註</label>
+          <textarea class="form-control" id="taskFormNote" rows="3" placeholder="填寫題目進度、審題注意事項或出題細項..."></textarea>
+        </div>
+        <button type="submit" class="btn-top btn-primary-top" style="width: 100%; justify-content: center; padding: 10px;">💾 儲存事項</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast-notification" id="toast">操作成功！</div>
+
+  <!-- JS Scripts -->
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
