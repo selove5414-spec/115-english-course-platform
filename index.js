@@ -1,13 +1,20 @@
 const fs = require('fs');
 const path = require('path');
+const syncHandler = require('./api/sync');
 
-module.exports = (req, res) => {
-  let reqPath = req.url ? req.url.split('?')[0] : '/index.html';
-  if (reqPath === '/' || reqPath === '') {
-    reqPath = '/index.html';
+module.exports = async (req, res) => {
+  let reqUrl = req.url ? req.url.split('?')[0] : '/index.html';
+
+  // API 路由分派
+  if (reqUrl.startsWith('/api/sync') || reqUrl.startsWith('/api/notion')) {
+    return syncHandler(req, res);
   }
 
-  const filePath = path.join(__dirname, 'public', reqPath);
+  if (reqUrl === '/' || reqUrl === '') {
+    reqUrl = '/index.html';
+  }
+
+  const filePath = path.join(__dirname, 'public', reqUrl);
 
   const targetFile = (fs.existsSync(filePath) && fs.statSync(filePath).isFile())
     ? filePath

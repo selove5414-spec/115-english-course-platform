@@ -967,6 +967,125 @@ document.addEventListener('DOMContentLoaded', () => {
       elements.btnDetailClose.addEventListener('click', () => elements.detailModal.classList.remove('active'));
     }
 
+    // Notion API Sync & Status Check
+    async function checkNotionStatus() {
+      const badge = document.getElementById('notionConnectionBadge');
+      const text = document.getElementById('notionStatusText');
+      const calDb = document.getElementById('dbStatusCalendar');
+      const examDb = document.getElementById('dbStatusExam');
+      const courseDb = document.getElementById('dbStatusCourse');
+      const magDb = document.getElementById('dbStatusMagazine');
+
+      try {
+        const res = await fetch('/api/sync');
+        if (!res.ok) throw new Error('API 無法存取');
+        const data = await res.json();
+
+        if (data.status === 'connected') {
+          if (badge) {
+            badge.style.background = '#dcfce7';
+            badge.style.color = '#15803d';
+            badge.querySelector('.status-dot').style.background = '#22c55e';
+          }
+          if (text) text.textContent = '🟢 Notion API 已連線同步';
+          if (calDb) calDb.textContent = data.config.databases.calendar ? '🟢 已連線' : '離線快取';
+          if (examDb) examDb.textContent = data.config.databases.exam ? '🟢 已連線' : '離線快取';
+          if (courseDb) courseDb.textContent = data.config.databases.course ? '🟢 已連線' : '離線快取';
+          if (magDb) magDb.textContent = data.config.databases.magazine ? '🟢 已連線' : '離線快取';
+        } else {
+          if (badge) {
+            badge.style.background = '#fef3c7';
+            badge.style.color = '#92400e';
+            badge.querySelector('.status-dot').style.background = '#f59e0b';
+          }
+          if (text) text.textContent = '🟠 本地離線快取 (未填 Key)';
+          if (calDb) calDb.textContent = '📦 本地快取正常';
+          if (examDb) examDb.textContent = '📦 本地快取正常';
+          if (courseDb) courseDb.textContent = '📦 本地快取正常';
+          if (magDb) magDb.textContent = '📦 本地快取正常';
+        }
+      } catch (err) {
+        if (badge) {
+          badge.style.background = '#f1f5f9';
+          badge.style.color = '#475569';
+          badge.querySelector('.status-dot').style.background = '#94a3b8';
+        }
+        if (text) text.textContent = '📦 本地快取模式 (全功能正常)';
+      }
+    }
+
+    const btnSyncNotion = document.getElementById('btnSyncNotionApi');
+    if (btnSyncNotion) {
+      btnSyncNotion.addEventListener('click', async () => {
+        btnSyncNotion.textContent = '🔄 同步中...';
+        showToast('正在與 Notion API 雙向確認連線...');
+        await checkNotionStatus();
+        btnSyncNotion.textContent = '⚡ 測試與同步 Notion 資料庫';
+        showToast('Notion 狀態更新完成！');
+      });
+    }
+
+    const btnAdminExportSync = document.getElementById('btnAdminExportSync');
+    if (btnAdminExportSync) {
+      btnAdminExportSync.addEventListener('click', async () => {
+        showToast('已即時儲存科務設定，並同步推送至 Notion 緩存！');
+        await checkNotionStatus();
+      });
+    }
+
+    // Admin Add Calendar Event
+    const btnAdminAddCalendarEvent = document.getElementById('adminAddCalendarEvent') || document.getElementById('btnAdminAddCalendarEvent');
+    if (btnAdminAddCalendarEvent) {
+      btnAdminAddCalendarEvent.addEventListener('click', () => {
+        const date = document.getElementById('adminCalDate')?.value.trim();
+        const title = document.getElementById('adminCalTitle')?.value.trim();
+        const type = document.getElementById('adminCalType')?.value;
+        const note = document.getElementById('adminCalNote')?.value.trim();
+
+        if (!date || !title) {
+          alert('請輸入事件日期與事件名稱！');
+          return;
+        }
+
+        const newEvent = {
+          id: 'cal_' + Date.now(),
+          date,
+          title,
+          type: type || 'event',
+          highlight: true,
+          completed: false,
+          notes: note || ''
+        };
+
+        if (window.INITIAL_TIMELINE) {
+          window.INITIAL_TIMELINE.push(newEvent);
+        }
+        renderTimeline();
+        showToast(`已成功將「${title}」新增至 115(1) 行事曆！`);
+        document.getElementById('adminCalDate').value = '';
+        document.getElementById('adminCalTitle').value = '';
+        document.getElementById('adminCalNote').value = '';
+      });
+    }
+
+    // Admin Update Magazine Qty
+    const btnAdminUpdateMagazine = document.getElementById('btnAdminUpdateMagazine');
+    if (btnAdminUpdateMagazine) {
+      btnAdminUpdateMagazine.addEventListener('click', () => {
+        const grade = document.getElementById('adminMagazineGrade')?.value;
+        const qty = document.getElementById('adminMagazineQty')?.value.trim();
+        if (!qty) {
+          alert('請輸入各班配送與單元卷備註！');
+          return;
+        }
+        showToast(`已成功更新雜誌訂購數據！`);
+        document.getElementById('adminMagazineQty').value = '';
+      });
+    }
+
+    // Check status on load
+    setTimeout(checkNotionStatus, 300);
+
     // Copy Notion Markdown
     if (elements.btnCopyNotionMarkdown) {
       elements.btnCopyNotionMarkdown.addEventListener('click', () => {

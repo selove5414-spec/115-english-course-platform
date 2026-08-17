@@ -286,21 +286,71 @@
         </section>
 
         <!-- ------------------------------------------------------------------
-             9. 📋 Notion 資料同步與匯出專區 (Notion View)
+             9. 📋 Notion 資料庫即時同步與連線中心 (Notion View)
              ------------------------------------------------------------------ -->
         <section class="view-section" id="sec-notion">
           <div class="in-charge-banner" style="background: linear-gradient(135deg, #f3e8ff 0%, #e9d5ff 100%); border-color: #c084fc; color: #6b21a8;">
-            <h3>📋 Notion 數據同步與一鍵複製區</h3>
-            <p>您可直接點擊下方「一鍵複製 Notion 格式文本」按鈕，貼入 Notion 頁面中即可直接產生資料庫與頁面卡片！</p>
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+              <div>
+                <h3 style="margin:0 0 6px 0;">⚡ Notion API 4大資料庫雙向同步中心</h3>
+                <p style="margin:0;">本系統支援對接 Notion 4 大獨立資料庫（行事曆、段考出題、授課節數、書卷雜誌），支援離線快取無縫降級。</p>
+              </div>
+              <div id="notionConnectionBadge" style="background: #e2e8f0; color: #475569; padding: 6px 14px; border-radius: 20px; font-weight: 700; font-size: 0.88rem; display: flex; align-items: center; gap: 6px;">
+                <span class="status-dot" style="width: 10px; height: 10px; border-radius: 50%; background: #94a3b8; display: inline-block;"></span>
+                <span id="notionStatusText">檢查連線狀態中...</span>
+              </div>
+            </div>
           </div>
 
-          <div style="display: flex; gap: 12px; margin-bottom: 20px;">
-            <button class="btn-top btn-primary-top" id="btnCopyNotionMarkdown">📋 一鍵複製 Notion 格式 Markdown</button>
-            <a class="btn-top" href="notion_export_115_english.md" target="_blank" style="text-decoration:none;">📄 開啟 notion_export_115_english.md 檔案</a>
+          <!-- Notion Database Status Grid -->
+          <div class="kpi-grid" style="margin-bottom: 20px;">
+            <div class="kpi-card" style="border-left: 4px solid #3b82f6;">
+              <div class="kpi-title">📅 115(1) 行事曆資料庫</div>
+              <div class="kpi-value" style="font-size: 1.1rem;" id="dbStatusCalendar">離線快取正常</div>
+              <div class="kpi-desc">NOTION_DB_CALENDAR_ID</div>
+            </div>
+            <div class="kpi-card" style="border-left: 4px solid #10b981;">
+              <div class="kpi-title">📝 段考出題分配資料庫</div>
+              <div class="kpi-value" style="font-size: 1.1rem;" id="dbStatusExam">離線快取正常</div>
+              <div class="kpi-desc">NOTION_DB_EXAM_ID</div>
+            </div>
+            <div class="kpi-card" style="border-left: 4px solid #f59e0b;">
+              <div class="kpi-title">🏫 授課名冊與節數資料庫</div>
+              <div class="kpi-value" style="font-size: 1.1rem;" id="dbStatusCourse">離線快取正常</div>
+              <div class="kpi-desc">NOTION_DB_COURSE_ID</div>
+            </div>
+            <div class="kpi-card" style="border-left: 4px solid #8b5cf6;">
+              <div class="kpi-title">📖 書卷雜誌訂購資料庫</div>
+              <div class="kpi-value" style="font-size: 1.1rem;" id="dbStatusMagazine">離線快取正常</div>
+              <div class="kpi-desc">NOTION_DB_MAGAZINE_ID</div>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 12px; margin-bottom: 20px; flex-wrap: wrap;">
+            <button class="btn-top btn-primary-top" id="btnSyncNotionApi">⚡ 測試與同步 Notion 資料庫</button>
+            <button class="btn-top" id="btnCopyNotionMarkdown">📋 一鍵複製 Notion 格式 Markdown</button>
+            <a class="btn-top" href="notion_export_115_english.md" target="_blank" style="text-decoration:none;">📄 開啟 notion_export_115_english.md</a>
+          </div>
+
+          <!-- Configuration Guide Collapsible -->
+          <div class="roster-card" style="margin-bottom: 20px;">
+            <div class="roster-card-header">
+              <span class="icon">💡</span>
+              <h3>如何設定 Notion API 連線（在 .env.local 中設定）</h3>
+            </div>
+            <div style="font-size: 0.9rem; line-height: 1.8; color: var(--text-muted);">
+              <ol style="margin-left: 20px;">
+                <li>前往 <a href="https://www.notion.so/profile/integrations" target="_blank" style="color: #2563eb; font-weight: bold;">Notion Integrations</a> 建立整合金鑰（格式如 <code>secret_xxxx...</code>）。</li>
+                <li>在 Notion 中建立或開啟您的資料庫，點擊右上角 <code>...</code> ➔ <strong>連線至 (Add connection)</strong> 授權剛建立的整合。</li>
+                <li>將資料庫網址中的 32 位代碼複製為 Database ID。</li>
+                <li>於專案目錄 <code>.env.local</code> 填入 <code>NOTION_API_KEY</code> 與各資料庫 ID，或在 Vercel 專案 Settings ➔ Environment Variables 中填入即可！</li>
+              </ol>
+            </div>
           </div>
 
           <div class="data-table-wrapper" style="padding: 20px; background: #faf9f6;">
-            <pre id="notionMarkdownPreview" style="white-space: pre-wrap; font-family: monospace; font-size: 0.85rem; color: var(--text-main); line-height: 1.6; max-height: 480px; overflow-y: auto;">
+            <div style="font-weight: 700; margin-bottom: 10px; color: var(--text-main);">📄 匯出至 Notion 頁面格式預覽 (Markdown Export Preview)：</div>
+            <pre id="notionMarkdownPreview" style="white-space: pre-wrap; font-family: monospace; font-size: 0.85rem; color: var(--text-main); line-height: 1.6; max-height: 400px; overflow-y: auto;">
 載入 Notion Markdown 內容中...
             </pre>
           </div>
@@ -329,15 +379,21 @@
         </section>
 
         <!-- ------------------------------------------------------------------
-             11. 主要編輯者後台 (Admin Panel View)
+             11. 全功能後台管理控制面板 (Admin Management View)
              ------------------------------------------------------------------ -->
         <section class="view-section" id="sec-admin">
           <div class="in-charge-banner" style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border-color: #f59e0b; color: #78350f;">
-            <h3>👑 英文科負責人 (何妃卿 老師) 全權管理後台</h3>
-            <p>您目前以<strong>英文科負責人 (主要編輯者)</strong> 權限登入。您可以自由更新任課老師分配、更換各項出題人員、重置密碼與線上編輯出題範圍。</p>
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+              <div>
+                <h3 style="margin: 0 0 6px 0;">👑 英文科負責人 / 代理人 全功能後台管理控制台</h3>
+                <p style="margin: 0;">您目前以<strong>科負責人 (最高管理權限)</strong> 登入。可在此全面管理行事曆、教師節數、段考出題分配與雜誌訂購。</p>
+              </div>
+              <button class="btn-top" id="btnAdminExportSync" style="background: #fff; color: #78350f; font-weight: 700;">💾 即時儲存並同步至 Notion</button>
+            </div>
           </div>
 
-          <div class="roster-grid">
+          <div class="roster-grid" style="grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 20px;">
+            <!-- 1. 教師帳號與密碼管理 -->
             <div class="roster-card">
               <div class="roster-card-header">
                 <span class="icon">👥</span>
@@ -348,25 +404,26 @@
               </div>
             </div>
 
+            <!-- 2. 快速替換任課老師 -->
             <div class="roster-card">
               <div class="roster-card-header">
                 <span class="icon">⚙️</span>
-                <h3>快速替換任課老師</h3>
+                <h3>快速調整班級任課老師</h3>
               </div>
               <div style="font-size: 0.9rem; line-height: 1.6; color: var(--text-muted);">
-                選擇欲替換之科目與新任課老師：
+                選擇欲調配之科目班級與新任課老師：
                 <div class="form-group" style="margin-top: 12px;">
                   <label class="form-label">選擇班級 / 科目</label>
                   <select class="form-control" id="adminSelectCourse">
-                    <option value="英一A">普一 英一A</option>
-                    <option value="英一B">普一 英一B</option>
-                    <option value="英一C">普一 英一C</option>
-                    <option value="普一英聽">普一 英語聽講</option>
-                    <option value="普二1英文">普二1 英文</option>
-                    <option value="普二2英文">普二2 英文</option>
-                    <option value="英三A">普三 英三A</option>
-                    <option value="英三B">普三 英三B</option>
-                    <option value="英三C">普三 英三C</option>
+                    <option value="英一A">普一 英一A (4節正課 + 2節輔導)</option>
+                    <option value="英一B">普一 英一B (4節正課 + 2節輔導)</option>
+                    <option value="英一C">普一 英一C (4節正課)</option>
+                    <option value="普一英聽">普一 英語聽講 (2節)</option>
+                    <option value="普二1英文">普二1 英文 (4節正課 + 1節輔導)</option>
+                    <option value="普二2英文">普二2 英文 (4節正課 + 1節輔導)</option>
+                    <option value="普三1">普三1 (2節正課 + 1節輔導 + 2節英作)</option>
+                    <option value="普三2">普三2 (2節正課 + 1節輔導 + 2節英作)</option>
+                    <option value="普三3">普三3 (2節正課 + 1節輔導 + 2節英作)</option>
                   </select>
                 </div>
                 <div class="form-group">
@@ -378,9 +435,63 @@
                     <option value="蔡欣妤 老師">蔡欣妤 老師</option>
                     <option value="顏惠玲 老師">顏惠玲 老師</option>
                     <option value="黃蘭婷 老師">黃蘭婷 老師</option>
+                    <option value="陳慰慈 老師">陳慰慈 老師</option>
+                    <option value="熊敏慧 老師">熊敏慧 老師</option>
                   </select>
                 </div>
                 <button class="btn-top btn-primary-top" id="btnAdminUpdateTeacher" style="width: 100%; justify-content: center;">💾 套用更新至任課表</button>
+              </div>
+            </div>
+
+            <!-- 3. 新增/編輯 115(1) 行事曆事件 -->
+            <div class="roster-card">
+              <div class="roster-card-header">
+                <span class="icon">📅</span>
+                <h3>新增 115(1) 行事曆重大事件</h3>
+              </div>
+              <div>
+                <div class="form-group">
+                  <label class="form-label">事件名稱 / 日期</label>
+                  <div style="display: flex; gap: 8px;">
+                    <input type="text" class="form-control" id="adminCalDate" placeholder="日期 (例: 11/15 (六))" style="flex: 1;">
+                    <input type="text" class="form-control" id="adminCalTitle" placeholder="事件名稱 (例: 全校校慶園遊會)" style="flex: 2;">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">事件類別標籤與備註</label>
+                  <div style="display: flex; gap: 8px;">
+                    <select class="form-control" id="adminCalType" style="flex: 1;">
+                      <option value="exam">🚨 段考評量</option>
+                      <option value="meeting">👥 領域會議</option>
+                      <option value="event">🏆 校園活動</option>
+                    </select>
+                    <input type="text" class="form-control" id="adminCalNote" placeholder="備註/負責人" style="flex: 2;">
+                  </div>
+                </div>
+                <button class="btn-top btn-primary-top" id="btnAdminAddCalendarEvent" style="width: 100%; justify-content: center;">➕ 新增事件至行事曆</button>
+              </div>
+            </div>
+
+            <!-- 4. 書卷與雜誌訂購數量快速編輯 -->
+            <div class="roster-card">
+              <div class="roster-card-header">
+                <span class="icon">📖</span>
+                <h3>書卷雜誌配送數量更新</h3>
+              </div>
+              <div style="font-size: 0.9rem;">
+                <div class="form-group">
+                  <label class="form-label">年級刊物</label>
+                  <select class="form-control" id="adminMagazineGrade">
+                    <option value="g1">普高一年級 (Live ABC 互動英語)</option>
+                    <option value="g2">普高二年級 (空中英語教室)</option>
+                    <option value="g3">普高三年級 (常春藤解析英語)</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">各班配送與單元卷人數備註</label>
+                  <input type="text" class="form-control" id="adminMagazineQty" placeholder="例如: 普一1: 45人 | 普一2: 45人 | 單元卷: 各30份">
+                </div>
+                <button class="btn-top btn-primary-top" id="btnAdminUpdateMagazine" style="width: 100%; justify-content: center;">💾 更新雜誌訂購數據</button>
               </div>
             </div>
           </div>
