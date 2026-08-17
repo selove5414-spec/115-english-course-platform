@@ -1,15 +1,6 @@
 {
-  "outputDirectory": "public",
-  "cleanUrls": true,
-  "headers": [
-    {
-      "source": "/(.*)",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "no-cache, no-store, must-revalidate"
-        }
-      ]
-    }
+  "version": 2,
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/index.js" }
   ]
 }

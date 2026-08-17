@@ -2,7 +2,8 @@
   "name": "115-english-course-platform",
   "version": "1.0.0",
   "private": true,
+  "main": "index.js",
   "scripts": {
-    "build": "echo Building static site"
+    "start": "node index.js"
   }
 }
