@@ -1,14 +1,21 @@
 /**
  * Notion 統一主頁面雙向同步端點 (api/sync.js)
  * 僅需 2 個環境變數：NOTION_API_KEY 與 NOTION_PAGE_ID
- * 自動以「高中部教學工作」主頁面為中心，管理所有子系統與科務區塊
+ * 自動以「高中部教學工作」主頁面為中心，管理所有子系統與科務資料庫
  */
 
 const https = require('https');
 const fs = require('fs');
 const path = require('path');
 
-// 嘗試載入 .env 或 .env.local（若存在）
+// 4 大已在主頁面建立之子資料庫 ID
+const CHILD_DATABASES = {
+  calendar: '3bf6485c74ff81a39219ec7bec2fff1f',
+  exam: '3bf6485c74ff81719ae6d66b243d2d47',
+  course: '3bf6485c74ff812e9d9deb79ca826599',
+  magazine: '3bf6485c74ff813584aeede928c4094f'
+};
+
 function loadEnv() {
   const envFiles = ['.env.local', '.env'];
   for (const envFile of envFiles) {
@@ -27,9 +34,7 @@ function loadEnv() {
             }
           }
         });
-      } catch (e) {
-        // ignore
-      }
+      } catch (e) {}
     }
   }
 }
@@ -72,7 +77,8 @@ module.exports = async function handler(req, res) {
     hasApiKey: Boolean(apiKey),
     pageId: pageId,
     pageTitle: '高中部教學工作',
-    mode: '統一主頁面集中管理架構'
+    databases: CHILD_DATABASES,
+    mode: '單一主頁面集中管轄'
   };
 
   if (req.method === 'GET') {
@@ -91,46 +97,32 @@ module.exports = async function handler(req, res) {
         'Content-Type': 'application/json'
       };
 
-      // 1. 取得主頁面資料
-      const pageRes = await httpsRequest({
+      // 查詢主頁面底下的行事曆資料庫即時項目
+      const calRes = await httpsRequest({
         hostname: 'api.notion.com',
-        path: `/v1/pages/${pageId}`,
-        method: 'GET',
+        path: `/v1/databases/${CHILD_DATABASES.calendar.replace(/-/g, '')}/query`,
+        method: 'POST',
         headers
-      });
+      }, {});
 
-      // 2. 取得主頁面底下的子區塊與子清單
-      const blocksRes = await httpsRequest({
-        hostname: 'api.notion.com',
-        path: `/v1/blocks/${pageId}/children?page_size=100`,
-        method: 'GET',
-        headers
-      });
-
-      const isPageOk = (pageRes.statusCode === 200);
-      const isBlocksOk = (blocksRes.statusCode === 200);
-
-      if (isPageOk) {
-        return res.end(JSON.stringify({
-          status: 'connected',
-          message: '🟢 成功連線至 Notion 主頁面【高中部教學工作】！所有小系統已集中管理。',
-          config: {
-            ...statusInfo,
-            pageTitle: '高中部教學工作 (已連線)',
-            childBlocksCount: isBlocksOk && blocksRes.data.results ? blocksRes.data.results.length : 0
-          },
-          data: {
-            page: pageRes.data,
-            blocks: isBlocksOk ? blocksRes.data.results : []
-          }
-        }));
-      } else {
-        return res.end(JSON.stringify({
-          status: 'error_fallback',
-          message: pageRes.data?.message || 'Notion 頁面授權中，請確認已在 Notion 頁面右上角 [...] 加入該整合連線。',
-          config: statusInfo
+      const results = {};
+      if (calRes.statusCode === 200) {
+        results.calendar = calRes.data.results.map(r => ({
+          id: r.id,
+          title: r.properties['事件名稱']?.title[0]?.plain_text || '',
+          date: r.properties['日期']?.rich_text[0]?.plain_text || '',
+          category: r.properties['類別']?.select?.name || '重要校程',
+          note: r.properties['備註/負責人']?.rich_text[0]?.plain_text || '',
+          completed: r.properties['完成狀態']?.checkbox || false
         }));
       }
+
+      return res.end(JSON.stringify({
+        status: 'connected',
+        message: '🟢 成功連線 Notion 主頁面【高中部教學工作】！4 大資料庫已完全就緒。',
+        config: statusInfo,
+        data: results
+      }));
     } catch (err) {
       return res.end(JSON.stringify({
         status: 'error_fallback',
