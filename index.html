@@ -54,11 +54,7 @@
         </a>
         <a href="#rubrics" class="nav-item" data-view="rubrics">
           <span class="icon">📊</span>
-          <span>評量尺規標準</span>
-        </a>
-        <a href="#template" class="nav-item" data-view="template">
-          <span class="icon">📄</span>
-          <span>評量範本 (英二A.xlsx)</span>
+          <span>評量尺規與範本(英二A)</span>
         </a>
         <a href="#notion" class="nav-item" data-view="notion">
           <span class="icon">📋</span>
@@ -132,8 +128,7 @@
             <a href="#specs" class="btn-sm" data-nav="specs" style="text-decoration:none;">📋 段考題型範圍</a>
             <a href="#magazines" class="btn-sm" data-nav="magazines" style="text-decoration:none;">📖 雜誌訂購明細</a>
             <a href="#memo" class="btn-sm" data-nav="memo" style="text-decoration:none;">📝 高中部教學MEMO</a>
-            <a href="#rubrics" class="btn-sm" data-nav="rubrics" style="text-decoration:none;">📊 評量尺規</a>
-            <a href="#template" class="btn-sm" data-nav="template" style="text-decoration:none;">📄 評量範本 (英二A)</a>
+            <a href="#rubrics" class="btn-sm" data-nav="rubrics" style="text-decoration:none;">📊 評量尺規與成績範本(英二A)</a>
             <a href="#notion" class="btn-sm" data-nav="notion" style="text-decoration:none;">📋 Notion 同步</a>
             <a href="#coedit" class="btn-sm" data-nav="coedit" style="text-decoration:none;">✏️ 科務工作填寫</a>
           </div>
@@ -257,21 +252,22 @@
         </section>
 
         <!-- ------------------------------------------------------------------
-             7. 📊 評量尺規標準 (Rubrics View)
+             7. 📊 評量尺規標準與成績範本 (Rubrics & Template View Combined)
              ------------------------------------------------------------------ -->
         <section class="view-section" id="sec-rubrics">
-          <div style="margin-bottom: 16px; font-size: 0.85rem; color: var(--text-muted);">💡 點擊評量卡片可「點進去看」詳細比例說明</div>
+          <div style="margin-bottom: 20px;">
+            <h2 style="font-size: 1.3rem; font-weight: 700; color: var(--text-main); margin-bottom: 6px;">📊 115學年度 各年級英文評量尺規配分標準</h2>
+            <div style="font-size: 0.85rem; color: var(--text-muted);">💡 點擊下方任何評量卡片即可「點進去看」詳細配分說明。</div>
+          </div>
+          
           <div class="rubric-grid" id="rubricsContent">
             <!-- Rendered by JS -->
           </div>
-        </section>
 
-        <!-- ------------------------------------------------------------------
-             8. 📄 評量範本 英二A.xlsx (Excel Template View)
-             ------------------------------------------------------------------ -->
-        <section class="view-section" id="sec-template">
-          <div class="in-charge-banner" style="background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%); border-color: #818cf8; color: #3730a3;">
-            <h3>📄 評量尺規參考範本：英二A.xlsx (學生名單已遮蔽)</h3>
+          <div style="margin: 32px 0 24px; border-top: 2px dashed var(--border-color);"></div>
+
+          <div class="in-charge-banner" style="background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%); border-color: #818cf8; color: #3730a3; margin-bottom: 16px;">
+            <h3>📄 評量尺規參考實務範本：英二A.xlsx (學生名單已遮蔽)</h3>
             <p>包含大卷、小卷、作業、英聽、一段(20%)、期中考(20%)、期末考(20%)與平常平均分數(40%)計算公式。點擊單列可「點進去看」詳細試算。</p>
           </div>
 
@@ -533,8 +529,8 @@
   <div class="toast-notification" id="toast">操作成功！</div>
 
   <!-- JS Scripts -->
-  <script src="data.js?v=115_v6"></script>
-  <script src="app.js?v=115_v6"></script>
+  <script src="data.js?v=115_v7"></script>
+  <script src="app.js?v=115_v7"></script>
 
   <!-- Instant Inline Capturing Fail-Safe Navigation & Modal Close Handler -->
   <script>
@@ -548,6 +544,7 @@
       }
 
       function doSwitch(view) {
+        if (view === 'template') view = 'rubrics';
         if (!view) return;
         var secs = document.querySelectorAll('.view-section');
         var target = document.getElementById('sec-' + view);

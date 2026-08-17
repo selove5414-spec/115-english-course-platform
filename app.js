@@ -207,6 +207,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 100% Fail-Proof View Switcher Engine
   function switchView(viewName) {
+    if (viewName === 'template') viewName = 'rubrics';
     if (!viewName || !document.getElementById(`sec-${viewName}`)) return;
 
     state.activeView = viewName;
