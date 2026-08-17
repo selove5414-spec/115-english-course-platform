@@ -1,0 +1,1144 @@
+/* ==========================================================================
+   115學年度高中英文課務協作平台 - Notion 風格視覺樣式 (style.css)
+   ========================================================================== */
+
+:root {
+  --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+  --bg-color: #f7f6f3;
+  --sidebar-bg: #f1f0ea;
+  --card-bg: #ffffff;
+  --text-main: #37352f;
+  --text-muted: #6b6b6b;
+  --text-light: #9b9a97;
+  --border-color: #e9e8e4;
+  --border-hover: #d3d1cb;
+  
+  --primary-color: #2eaadc;
+  --primary-hover: #0081b8;
+  --primary-light: #e8f7fd;
+  
+  --accent-purple: #9065b0;
+  --accent-green: #448361;
+  --accent-orange: #d9730d;
+  --accent-red: #d44c47;
+  --accent-blue: #337ea9;
+  
+  --badge-green-bg: #edf6f1;
+  --badge-green-text: #276a47;
+  --badge-amber-bg: #fbf3db;
+  --badge-amber-text: #89632a;
+  --badge-red-bg: #ffeef0;
+  --badge-red-text: #c22934;
+  --badge-blue-bg: #e8f3f9;
+  --badge-blue-text: #206a94;
+
+  --shadow-sm: 0 1px 3px rgba(15, 15, 15, 0.05);
+  --shadow-md: 0 4px 12px rgba(15, 15, 15, 0.08);
+  --shadow-lg: 0 12px 28px rgba(15, 15, 15, 0.12);
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-main);
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  overflow-x: hidden;
+}
+
+/* App Container Layout */
+#app {
+  display: flex;
+  width: 100vw;
+  min-height: 100vh;
+}
+
+/* --------------------------------------------------------------------------
+   Sidebar Component (Notion Style)
+   -------------------------------------------------------------------------- */
+.sidebar {
+  width: 280px;
+  background-color: var(--sidebar-bg);
+  border-right: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  padding: 20px 14px;
+  flex-shrink: 0;
+  height: 100vh;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  transition: transform 0.3s ease;
+}
+
+.workspace-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  margin-bottom: 20px;
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--border-color);
+}
+
+.workspace-icon {
+  font-size: 1.8rem;
+  background: #ffffff;
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-sm);
+}
+
+.workspace-info .title {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--text-main);
+  line-height: 1.3;
+}
+
+.workspace-info .subtitle {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.nav-group {
+  margin-bottom: 24px;
+}
+
+.nav-title {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-light);
+  padding: 0 10px 8px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  border-radius: var(--radius-sm);
+  color: var(--text-main);
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.nav-item:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+.nav-item.active {
+  background-color: #ffffff;
+  font-weight: 600;
+  color: var(--primary-hover);
+  box-shadow: var(--shadow-sm);
+}
+
+.nav-item .icon {
+  font-size: 1.1rem;
+}
+
+.nav-badge {
+  margin-left: auto;
+  font-size: 0.75rem;
+  background: rgba(0,0,0,0.06);
+  padding: 2px 7px;
+  border-radius: 12px;
+  color: var(--text-muted);
+}
+
+/* User Card in Sidebar Bottom */
+.user-profile-card {
+  margin-top: auto;
+  padding: 12px;
+  background: var(--card-bg);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.user-avatar {
+  font-size: 1.5rem;
+  width: 38px;
+  height: 38px;
+  background: #f0f4f8;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.user-details {
+  flex: 1;
+  overflow: hidden;
+}
+
+.user-name {
+  font-size: 0.85rem;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.user-role-tag {
+  font-size: 0.7rem;
+  color: var(--primary-hover);
+  background: var(--primary-light);
+  padding: 1px 6px;
+  border-radius: 4px;
+  display: inline-block;
+  font-weight: 600;
+}
+
+.btn-switch-user {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 4px;
+  border-radius: 4px;
+}
+
+.btn-switch-user:hover {
+  background: rgba(0,0,0,0.05);
+  color: var(--text-main);
+}
+
+/* --------------------------------------------------------------------------
+   Main Content Area
+   -------------------------------------------------------------------------- */
+.main-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow-y: auto;
+  height: 100vh;
+}
+
+/* Top Banner Header */
+.notion-cover {
+  height: 160px;
+  background: linear-gradient(135deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);
+  position: relative;
+  flex-shrink: 0;
+}
+
+.notion-cover-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.15);
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  padding: 14px 24px;
+}
+
+.top-bar-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn-top {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255,255,255,0.4);
+  padding: 8px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-main);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.2s ease;
+}
+
+.btn-top:hover {
+  background: #ffffff;
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.btn-primary-top {
+  background: var(--primary-hover);
+  color: #ffffff;
+  border: none;
+}
+
+.btn-primary-top:hover {
+  background: #006b99;
+}
+
+/* Notion Content Body */
+.notion-body {
+  max-width: 1140px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 36px 40px 80px;
+  flex: 1;
+}
+
+.page-header-block {
+  margin-bottom: 32px;
+  position: relative;
+}
+
+.page-icon-large {
+  font-size: 4rem;
+  margin-top: -60px;
+  margin-bottom: 12px;
+  display: inline-block;
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.15));
+  background: #ffffff;
+  padding: 8px 14px;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+}
+
+.page-title {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: var(--text-main);
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  margin-bottom: 8px;
+}
+
+.page-description {
+  color: var(--text-muted);
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.quick-meta-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.meta-pill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.82rem;
+  background: #ffffff;
+  border: 1px solid var(--border-color);
+  padding: 5px 12px;
+  border-radius: 20px;
+  color: var(--text-main);
+}
+
+/* Filter & View Switcher Bar */
+.view-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 12px;
+  margin-bottom: 24px;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.tab-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.tab-btn {
+  padding: 7px 16px;
+  border-radius: var(--radius-sm);
+  border: none;
+  background: none;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.tab-btn:hover {
+  background: rgba(0,0,0,0.04);
+  color: var(--text-main);
+}
+
+.tab-btn.active {
+  background: #ffffff;
+  color: var(--text-main);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-color);
+}
+
+.search-filter-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.search-input {
+  padding: 7px 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-color);
+  background: #ffffff;
+  font-size: 0.85rem;
+  outline: none;
+  width: 220px;
+  transition: border-color 0.2s;
+}
+
+.search-input:focus {
+  border-color: var(--primary-color);
+}
+
+.filter-select {
+  padding: 7px 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-color);
+  background: #ffffff;
+  font-size: 0.85rem;
+  outline: none;
+  cursor: pointer;
+}
+
+/* --------------------------------------------------------------------------
+   Section Views
+   -------------------------------------------------------------------------- */
+.view-section {
+  display: none;
+}
+
+.view-section.active {
+  display: block;
+  animation: fadeIn 0.25s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* --------------------------------------------------------------------------
+   1. Timeline View (時間線動態視圖)
+   -------------------------------------------------------------------------- */
+.timeline-container {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.month-block {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 24px;
+  box-shadow: var(--shadow-sm);
+}
+
+.month-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-main);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 18px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--primary-light);
+}
+
+.timeline-events-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  position: relative;
+  padding-left: 20px;
+}
+
+.timeline-events-list::before {
+  content: '';
+  position: absolute;
+  left: 6px;
+  top: 8px;
+  bottom: 8px;
+  width: 2px;
+  background: var(--border-color);
+}
+
+.event-card {
+  position: relative;
+  background: #faf9f6;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  padding: 14px 18px;
+  transition: all 0.2s ease;
+}
+
+.event-card:hover {
+  background: #ffffff;
+  box-shadow: var(--shadow-sm);
+  border-color: var(--border-hover);
+}
+
+.event-node {
+  position: absolute;
+  left: -20px;
+  top: 18px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 3px solid var(--primary-color);
+  box-shadow: 0 0 0 3px var(--bg-color);
+}
+
+.event-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.event-date {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--accent-blue);
+  background: var(--badge-blue-bg);
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.event-type-badge {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 12px;
+}
+
+.type-exam { background: var(--badge-red-bg); color: var(--badge-red-text); }
+.type-audio { background: var(--badge-amber-bg); color: var(--badge-amber-text); }
+.type-prep { background: var(--badge-blue-bg); color: var(--badge-blue-text); }
+.type-holiday { background: #f0f0f0; color: #666; }
+.type-start { background: var(--badge-green-bg); color: var(--badge-green-text); }
+.type-activity { background: #f3e8ff; color: #6b21a8; }
+.type-makeup { background: #ffedd5; color: #c2410c; }
+
+.event-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 4px;
+}
+
+.event-desc {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+}
+
+.event-incharge {
+  font-size: 0.78rem;
+  color: var(--text-light);
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* --------------------------------------------------------------------------
+   2. Course & Teacher Roster View (任課與分組表)
+   -------------------------------------------------------------------------- */
+.roster-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 20px;
+}
+
+.roster-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 20px;
+  box-shadow: var(--shadow-sm);
+}
+
+.roster-card-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.roster-card-header .icon {
+  font-size: 1.4rem;
+}
+
+.roster-card-header h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.subject-item-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.subject-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background: var(--bg-color);
+  border-radius: var(--radius-sm);
+  font-size: 0.88rem;
+}
+
+.subject-name {
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.teacher-badge {
+  background: #ffffff;
+  border: 1px solid var(--border-color);
+  padding: 3px 10px;
+  border-radius: 14px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--primary-hover);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.in-charge-banner {
+  background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
+  border: 1px solid #7dd3fc;
+  border-radius: var(--radius-md);
+  padding: 20px;
+  margin-bottom: 24px;
+  color: #0369a1;
+}
+
+.in-charge-banner h3 {
+  font-size: 1.15rem;
+  font-weight: 800;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.in-charge-banner ul {
+  padding-left: 20px;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+/* --------------------------------------------------------------------------
+   3. Question Setter Schedule View (出題與教學進度)
+   -------------------------------------------------------------------------- */
+.data-table-wrapper {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 24px;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.88rem;
+}
+
+.data-table th {
+  background: var(--sidebar-bg);
+  padding: 12px 16px;
+  font-weight: 700;
+  color: var(--text-main);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.data-table td {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border-color);
+  color: var(--text-main);
+}
+
+.data-table tr:last-child td {
+  border-bottom: none;
+}
+
+.data-table tr:hover {
+  background: rgba(0,0,0,0.015);
+}
+
+.setter-tag {
+  background: var(--primary-light);
+  color: var(--primary-hover);
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 0.82rem;
+  display: inline-block;
+}
+
+/* --------------------------------------------------------------------------
+   4. Exam Format & Scope Specs View (段考與期末考題型範圍)
+   -------------------------------------------------------------------------- */
+.spec-cards-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.spec-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 24px;
+  box-shadow: var(--shadow-sm);
+}
+
+.spec-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.spec-title {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--text-main);
+}
+
+.spec-scope-box {
+  background: #fffbeb;
+  border-left: 4px solid #f59e0b;
+  padding: 12px 16px;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  margin-bottom: 16px;
+  font-size: 0.9rem;
+  color: #92400e;
+}
+
+.spec-notice-box {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  color: #991b1b;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.spec-sections-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 16px;
+}
+
+.spec-section-box {
+  background: var(--bg-color);
+  padding: 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-color);
+}
+
+.spec-section-box h4 {
+  font-size: 0.92rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--text-main);
+}
+
+.spec-section-box ul {
+  padding-left: 18px;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+/* --------------------------------------------------------------------------
+   5. Grading Rubrics View (評量尺規)
+   -------------------------------------------------------------------------- */
+.rubric-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 20px;
+}
+
+.rubric-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 20px;
+  box-shadow: var(--shadow-sm);
+}
+
+.rubric-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 14px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--primary-light);
+}
+
+.rubric-subject-box {
+  background: var(--bg-color);
+  border-radius: var(--radius-sm);
+  padding: 14px;
+  margin-bottom: 12px;
+  border: 1px solid var(--border-color);
+}
+
+.rubric-subject-name {
+  font-weight: 700;
+  font-size: 0.95rem;
+  margin-bottom: 8px;
+  color: var(--accent-blue);
+}
+
+.rubric-rate-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 6px;
+  font-size: 0.85rem;
+}
+
+.rubric-rate-badge {
+  font-weight: 800;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+}
+
+.rate-regular { background: #dcfce7; color: #166534; }
+.rate-exam { background: #dbeafe; color: #1e40af; }
+
+/* --------------------------------------------------------------------------
+   6. Collaborative Task Board (開放共編與工作填寫區)
+   -------------------------------------------------------------------------- */
+.coedit-banner {
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  padding: 16px 20px;
+  border-radius: var(--radius-md);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.coedit-banner .info-text {
+  color: #166534;
+  font-size: 0.9rem;
+}
+
+.coedit-banner .info-text strong {
+  font-size: 1rem;
+}
+
+.task-cards-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.task-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 18px 22px;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: all 0.2s ease;
+}
+
+.task-card:hover {
+  box-shadow: var(--shadow-md);
+  border-color: var(--border-hover);
+}
+
+.task-top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.task-title-area {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.task-checkbox {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  accent-color: var(--accent-green);
+}
+
+.task-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.task-card.completed .task-title {
+  text-decoration: line-through;
+  color: var(--text-light);
+}
+
+.task-assignee {
+  font-size: 0.82rem;
+  font-weight: 700;
+  background: var(--primary-light);
+  color: var(--primary-hover);
+  padding: 3px 10px;
+  border-radius: 12px;
+}
+
+.task-meta-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  flex-wrap: wrap;
+}
+
+.task-note-box {
+  background: var(--bg-color);
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 0.88rem;
+  color: var(--text-main);
+  border: 1px dashed var(--border-color);
+}
+
+.task-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.btn-sm {
+  padding: 5px 10px;
+  border-radius: var(--radius-sm);
+  font-size: 0.8rem;
+  font-weight: 600;
+  border: 1px solid var(--border-color);
+  background: #ffffff;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btn-sm:hover {
+  background: var(--bg-color);
+}
+
+.btn-edit-sm {
+  color: var(--primary-hover);
+  border-color: #bae6fd;
+}
+
+.btn-delete-sm {
+  color: var(--accent-red);
+  border-color: #fecaca;
+}
+
+/* --------------------------------------------------------------------------
+   Modals (Login & Task Edit Modal)
+   -------------------------------------------------------------------------- */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.2s ease;
+}
+
+.modal-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal-container {
+  background: #ffffff;
+  width: 90%;
+  max-width: 520px;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  padding: 28px;
+  transform: translateY(12px);
+  transition: transform 0.2s ease;
+}
+
+.modal-overlay.active .modal-container {
+  transform: translateY(0);
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.modal-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--text-main);
+}
+
+.btn-close-modal {
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+  color: var(--text-main);
+}
+
+.form-control {
+  width: 100%;
+  padding: 9px 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-color);
+  font-size: 0.9rem;
+  outline: none;
+  font-family: inherit;
+}
+
+.form-control:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px var(--primary-light);
+}
+
+.quick-users-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.quick-user-chip {
+  background: var(--bg-color);
+  border: 1px solid var(--border-color);
+  padding: 4px 10px;
+  border-radius: 16px;
+  font-size: 0.78rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.quick-user-chip:hover {
+  background: var(--primary-light);
+  border-color: var(--primary-color);
+  color: var(--primary-hover);
+}
+
+/* Toast Notification */
+.toast-notification {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: #1e293b;
+  color: #ffffff;
+  padding: 12px 20px;
+  border-radius: var(--radius-md);
+  font-size: 0.9rem;
+  font-weight: 600;
+  box-shadow: var(--shadow-lg);
+  z-index: 200;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+
+.toast-notification.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Responsive adjustments */
+@media (max-width: 860px) {
+  #app {
+    flex-direction: column;
+  }
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+  }
+  .notion-body {
+    padding: 24px 20px 60px;
+  }
+}
