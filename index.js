@@ -30,7 +30,8 @@ module.exports = (req, res) => {
   try {
     const content = fs.readFileSync(targetFile);
     res.setHeader('Content-Type', contentType);
-    res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+    res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate, max-age=0');
+    res.setHeader('Pragma', 'no-cache');
     res.statusCode = 200;
     res.end(content);
   } catch (err) {
